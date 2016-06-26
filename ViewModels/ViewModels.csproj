@@ -110,6 +110,8 @@
     <Compile Include="MainPageViewModel.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StringTupple.cs" />
+    <Compile Include="WordViewModel.cs" />
     <EmbeddedResource Include="Properties\ViewModels.rd.xml" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">

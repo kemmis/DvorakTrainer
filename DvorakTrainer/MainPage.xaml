@@ -8,7 +8,12 @@
     xmlns:controls="using:WinRTXamlToolkit.Controls"
     mc:Ignorable="d" xmlns:m="using:ViewModels">
     <StackPanel Padding="80">
-        <ItemsControl ItemsSource="{x:Bind ViewModel.WordsToType}" Margin="0,0,0,20">
+        <controls:WrapPanel>
+            <ComboBox ItemsSource="{x:Bind ViewModel.Levels}" 
+                      SelectedItem="{x:Bind ViewModel.SelectedLevel}"
+                      DisplayMemberPath="Name" />
+        </controls:WrapPanel>
+        <ItemsControl ItemsSource="{x:Bind ViewModel.WordsToType}" Margin="0,20,0,20">
             <ItemsControl.ItemTemplate>
                 <DataTemplate x:DataType="m:WordViewModel">
                     <local:WordControl ViewModel="{x:Bind}"></local:WordControl>
