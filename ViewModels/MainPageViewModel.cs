@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Services;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
@@ -13,9 +14,10 @@ namespace ViewModels
 {
     public class MainPageViewModel
     {
-
         public MainPageViewModel()
         {
+            var wls = new WordListService();
+            _wordsToMatch = wls.GetWords(100, 1).ToList();
             var wordViewModels = _wordsToMatch.Select((w, i) => new WordViewModel()
             {
                 Active = i == 0,
@@ -31,10 +33,7 @@ namespace ViewModels
         }
 
         private int _currentWordIndex = 0;
-        private List<string> _wordsToMatch = new List<string>()
-        {
-            "derp","wowee","wicked","shitstorm","buttlick","dickfuck","teabag","assclown","exhorated","green","dirty","dicky"
-        };
+        private List<string> _wordsToMatch;
 
         public Level SelectedLevel { get; set; }
         public List<Level> Levels = new List<Level>()
