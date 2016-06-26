@@ -1,0 +1,25 @@
+﻿<Page
+    x:Class="DvorakTrainer.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:DvorakTrainer"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:WinRTXamlToolkit.Controls"
+    mc:Ignorable="d" xmlns:m="using:ViewModels">
+    <StackPanel Padding="80">
+        <ItemsControl ItemsSource="{x:Bind ViewModel.WordsToType}" Margin="0,0,0,20">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate x:DataType="m:WordViewModel">
+                    <local:WordControl ViewModel="{x:Bind}"></local:WordControl>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <controls:WrapPanel HorizontalAlignment="Center"/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+        </ItemsControl>
+        <RichEditBox KeyUp="{x:Bind ViewModel.OnInputKeyUp}" KeyDown="{x:Bind ViewModel.OnInputKeyDown}"></RichEditBox>
+    </StackPanel>
+</Page>
