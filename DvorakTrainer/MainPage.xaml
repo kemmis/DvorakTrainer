@@ -20,6 +20,8 @@
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
         </ItemsControl>
-        <RichEditBox KeyUp="{x:Bind ViewModel.OnInputKeyUp}" KeyDown="{x:Bind ViewModel.OnInputKeyDown}"></RichEditBox>
+        <RichEditBox TextAlignment="Center"
+            KeyUp="{x:Bind ViewModel.OnInputKeyUp}" 
+                     KeyDown="{x:Bind ViewModel.OnInputKeyDown}"></RichEditBox>
     </StackPanel>
 </Page>

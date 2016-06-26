@@ -11,7 +11,7 @@
     d:DesignWidth="400"
     xmlns:m="using:ViewModels" xmlns:s="using:System">
 
-    <Border BorderThickness="0" Padding="10" CornerRadius="10" 
+    <Border BorderThickness="0" Padding="10,0,10,4" CornerRadius="10" 
             BorderBrush="{x:Bind ViewModel.BorderColor, Mode=OneWay}"
             Background="{x:Bind ViewModel.BorderColor, Mode=OneWay}">
         <ItemsControl ItemsSource="{x:Bind ViewModel.Letters}">

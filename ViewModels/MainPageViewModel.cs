@@ -77,7 +77,14 @@ namespace ViewModels
                 if (wordToMatch == textEntered.Trim())
                 {
                     WordsToType[_currentWordIndex].Active = false;
+                    WordsToType[_currentWordIndex].Completed = true;
+
+                    var curWordTupple = WordsToType[_currentWordIndex].Text;
+                    curWordTupple.Compare = "";
+                    WordsToType[_currentWordIndex].Text = curWordTupple;
+
                     _currentWordIndex++;
+
                     if (_currentWordIndex < WordsToType.Count)
                     {
                         WordsToType[_currentWordIndex].Active = true;
@@ -105,6 +112,23 @@ namespace ViewModels
             }
         }
 
+        private bool _completed = false;
+
+        public bool Completed
+        {
+            get
+            {
+                return _completed;
+            }
+            set
+            {
+                if (_completed != value)
+                {
+                    _completed = value;
+                    OnPropertyChanged(nameof(Completed));
+                }
+            }
+        }
         private ObservableCollection<StringTupple> _letters;
 
         private StringTupple _text;
@@ -173,6 +197,11 @@ namespace ViewModels
         {
             get
             {
+                if (WordViewModel.Completed)
+                {
+                    return new SolidColorBrush(Colors.DimGray);
+                }
+
                 if (!WordViewModel.Active)
                 {
                     return new SolidColorBrush(Colors.Black);
