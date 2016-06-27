@@ -13,18 +13,21 @@
                       SelectedItem="{x:Bind ViewModel.SelectedLevel}"
                       DisplayMemberPath="Name" />
         </controls:WrapPanel>
-        <ItemsControl ItemsSource="{x:Bind ViewModel.WordsToType}" Margin="0,20,0,20">
-            <ItemsControl.ItemTemplate>
-                <DataTemplate x:DataType="m:WordViewModel">
-                    <local:WordControl ViewModel="{x:Bind}"></local:WordControl>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <controls:WrapPanel HorizontalAlignment="Center"/>
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
-        </ItemsControl>
+        <ScrollViewer Height="130" VerticalScrollBarVisibility="Hidden" VerticalScrollMode="Disabled" 
+                      Margin="0,20,0,20">
+            <ItemsControl ItemsSource="{x:Bind ViewModel.WordsToType}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate x:DataType="m:WordViewModel">
+                        <local:WordControl ViewModel="{x:Bind}"></local:WordControl>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <controls:WrapPanel HorizontalAlignment="Center"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
+        </ScrollViewer>
         <RichEditBox TextAlignment="Center"
             KeyUp="{x:Bind ViewModel.OnInputKeyUp}" 
                      KeyDown="{x:Bind ViewModel.OnInputKeyDown}"></RichEditBox>

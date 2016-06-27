@@ -17,7 +17,9 @@
         <ItemsControl ItemsSource="{x:Bind ViewModel.Letters}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate x:DataType="m:StringTupple">
-                    <TextBlock Text="{x:Bind Display}" Foreground="{x:Bind ForegroundColor}" FontSize="30" >
+                    <TextBlock Text="{x:Bind Display}" 
+                               Foreground="{x:Bind ForegroundColor}" 
+                               FontSize="30" >
                     </TextBlock>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -13,6 +14,8 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using ViewModels;
+using WinRTXamlToolkit.Controls;
+using WinRTXamlToolkit.Controls.Extensions;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -24,11 +27,31 @@ namespace DvorakTrainer
         {
             get
             {
-                return (WordViewModel) GetValue(ViewModelProperty);
+                return (WordViewModel)GetValue(ViewModelProperty);
             }
             set
             {
                 SetValue(ViewModelProperty, value);
+
+                ViewModel.PropertyChanged += ViewModelOnPropertyChanged;
+            }
+        }
+
+        private async void ViewModelOnPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
+        {
+            if (propertyChangedEventArgs.PropertyName == nameof(ViewModel.Active))
+            {
+                if (ViewModel.Active)
+                {
+                    var sv = this.GetFirstAncestorOfType<ScrollViewer>();
+                    if (sv != null)
+                    {
+                        var wp = this.GetFirstAncestorOfType<WrapPanel>();
+                        var t = TransformToVisual(wp);
+                        Point point = t.TransformPoint(new Point(0, 0));
+                        await sv.ScrollToVerticalOffsetWithAnimationAsync(point.Y, 0.4);
+                    }
+                }
             }
         }
 
@@ -41,5 +64,9 @@ namespace DvorakTrainer
         {
             this.InitializeComponent();
         }
+
+
     }
+
+
 }
