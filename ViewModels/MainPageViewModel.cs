@@ -48,10 +48,23 @@ namespace ViewModels
             get { return _isMainInputFocused; }
             set
             {
-                if (true ||_isMainInputFocused != value)
+                if (true || _isMainInputFocused != value)
                 {
                     _isMainInputFocused = value;
                     OnPropertyChanged(nameof(IsMainInputFocused));
+                }
+            }
+        }
+
+        public int CurrentWordIndex
+        {
+            get { return _currentWordIndex; }
+            set
+            {
+                if (_currentWordIndex != value)
+                {
+                    _currentWordIndex = value;
+                    OnPropertyChanged(nameof(CurrentWordIndex));
                 }
             }
         }
@@ -156,7 +169,7 @@ namespace ViewModels
                     curWordTupple.Compare = "";
                     WordsToType[_currentWordIndex].Text = curWordTupple;
 
-                    _currentWordIndex++;
+                    CurrentWordIndex++;
 
                     if (_currentWordIndex < WordsToType.Count)
                     {
@@ -176,7 +189,7 @@ namespace ViewModels
         {
             Disable();
             var levelIndex = ((Level)SelectedLevel).LevelIndex;
-            _currentWordIndex = 0;
+            CurrentWordIndex = 0;
             var wls = new WordListService();
             _wordsToMatch = (await wls.GetWordsAsync(100, levelIndex)).ToList();
             var wordViewModels = _wordsToMatch.Select((w, i) => new WordViewModel()
@@ -210,12 +223,5 @@ namespace ViewModels
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-    }
-
-    public class Level
-    {
-        public string Characters { get; set; }
-        public string Name { get; set; }
-        public int LevelIndex { get; set; }
     }
 }
