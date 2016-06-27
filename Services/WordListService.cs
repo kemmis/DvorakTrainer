@@ -12,19 +12,22 @@ namespace Services
 {
     public class WordListService
     {
-        public IEnumerable<string> GetWords(int numWords, int level)
+        public Task<IEnumerable<string>> GetWordsAsync(int numWords, int level)
         {
-            var resStream = this.GetType()
-                .GetTypeInfo()
-                .Assembly.GetManifestResourceStream("Services.level" + level + ".json");
-
-            JsonSerializer serializer = new JsonSerializer();
-
-            using (var sr = new StreamReader(resStream))
-            using (var jsonTextReader = new JsonTextReader(sr))
+            return Task.Run(() =>
             {
-                return serializer.Deserialize<List<string>>(jsonTextReader).PickRandom(numWords);
-            }
+                var resStream = this.GetType()
+                    .GetTypeInfo()
+                    .Assembly.GetManifestResourceStream("Services.level" + level + ".json");
+
+                JsonSerializer serializer = new JsonSerializer();
+
+                using (var sr = new StreamReader(resStream))
+                using (var jsonTextReader = new JsonTextReader(sr))
+                {
+                    return serializer.Deserialize<List<string>>(jsonTextReader).PickRandom(numWords);
+                }
+            });
         }
     }
 
