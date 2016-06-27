@@ -13,6 +13,7 @@ using Windows.UI.Text;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using ViewModels.Annotations;
+using WinRTXamlToolkit.Controls.Extensions;
 
 namespace ViewModels
 {
@@ -22,6 +23,19 @@ namespace ViewModels
         {
             SelectedLevel = Levels[0];
             //Start();
+        }
+
+        public bool MapToDvorak
+        {
+            get { return _mapToDvorak; }
+            set
+            {
+                if (_mapToDvorak != value)
+                {
+                    _mapToDvorak = value;
+                    OnPropertyChanged(nameof(MapToDvorak));
+                }
+            }
         }
 
         public bool Enabled
@@ -98,6 +112,7 @@ namespace ViewModels
         private ObservableCollection<WordViewModel> _wordsToType;
         private bool _enabled;
         private bool _isMainInputFocused;
+        private bool _mapToDvorak;
 
         public ObservableCollection<WordViewModel> WordsToType
         {
@@ -114,10 +129,14 @@ namespace ViewModels
 
         public void OnInputKeyUp(object sender, KeyRoutedEventArgs args)
         {
-            var reb = sender as RichEditBox;
+            var tb = sender as TextBox;
+            var reb = tb.GetFirstAncestorOfType<Grid>().GetFirstDescendantOfType<RichEditBox>();
+            reb.Document.SetText(TextSetOptions.None, tb.Text);
+
             if (args.Key == VirtualKey.Space)
             {
                 reb.Document.SetText(TextSetOptions.None, "");
+                tb.Text = "";
                 return;
             }
 
@@ -152,9 +171,13 @@ namespace ViewModels
 
         public void OnInputKeyDown(object sender, KeyRoutedEventArgs args)
         {
-            var reb = sender as RichEditBox;
-            string textEntered = null;
-            reb.Document.GetText(TextGetOptions.NoHidden, out textEntered);
+
+            var tb = sender as TextBox;
+            var reb = tb.GetFirstAncestorOfType<Grid>().GetFirstDescendantOfType<RichEditBox>();
+            //reb.Document.SetText(TextSetOptions.None, tb.Text);
+
+            string textEntered = tb.Text;
+            //reb.Document.GetText(TextGetOptions.NoHidden, out textEntered);
 
             var wordToMatch = _wordsToMatch[_currentWordIndex];
 
@@ -177,6 +200,7 @@ namespace ViewModels
                     }
                 }
                 reb.Document.SetText(TextSetOptions.None, "");
+                tb.Text = "";
             }
         }
 

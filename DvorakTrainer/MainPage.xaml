@@ -7,11 +7,20 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:WinRTXamlToolkit.Controls"
     mc:Ignorable="d" xmlns:m="using:ViewModels">
-    <StackPanel Padding="80">
+
+    <StackPanel Padding="80,20">
         <controls:WrapPanel>
-            <ComboBox ItemsSource="{x:Bind ViewModel.Levels}"
+            <StackPanel>
+                <TextBlock Text="Level"></TextBlock>
+                <ComboBox ItemsSource="{x:Bind ViewModel.Levels}"
                       SelectedItem="{x:Bind ViewModel.SelectedLevel, Mode=TwoWay}"
                       DisplayMemberPath="Name" SelectionChanged="{x:Bind ViewModel.OnLevelChange}" />
+            </StackPanel>
+            <StackPanel Margin="20,0,0,0">
+                <TextBlock Text="Map keys to Dvorak"></TextBlock>
+                <ToggleSwitch IsOn="{x:Bind ViewModel.MapToDvorak, Mode=TwoWay}"></ToggleSwitch>
+            </StackPanel>
+
         </controls:WrapPanel>
         <ScrollViewer Height="130" VerticalScrollBarVisibility="Hidden" 
                       VerticalScrollMode="Disabled" 
@@ -30,10 +39,16 @@
             </ItemsControl>
         </ScrollViewer>
         <ProgressBar Minimum="0" Maximum="100" Value="{x:Bind ViewModel.CurrentWordIndex, Mode=OneWay}" ></ProgressBar>
-        <RichEditBox TextAlignment="Center" IsEnabled="{x:Bind ViewModel.Enabled, Mode=OneWay}"
-            KeyUp="{x:Bind ViewModel.OnInputKeyUp}" 
-            KeyDown="{x:Bind ViewModel.OnInputKeyDown}"
-           >
-        </RichEditBox>
+        <Grid>
+            <StackPanel>
+            <RichEditBox TextAlignment="Left">
+            </RichEditBox>
+            <TextBox TextAlignment="Center" Background="Transparent"
+                IsEnabled="{x:Bind ViewModel.Enabled, Mode=OneWay}"
+                KeyUp="{x:Bind ViewModel.OnInputKeyUp}" 
+                KeyDown="{x:Bind ViewModel.OnInputKeyDown}">
+            </TextBox></StackPanel>
+        </Grid>
+
     </StackPanel>
 </Page>
