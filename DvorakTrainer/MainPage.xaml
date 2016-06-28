@@ -7,7 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:WinRTXamlToolkit.Controls"
     mc:Ignorable="d" xmlns:m="using:ViewModels">
-   
+
 
     <StackPanel Padding="80,20">
         <controls:WrapPanel>
@@ -36,7 +36,7 @@
                     <ItemsPanelTemplate>
                         <controls:WrapPanel HorizontalAlignment="Center">
                             <controls:WrapPanel.Transitions>
-                                <TransitionCollection>                                    
+                                <TransitionCollection>
                                     <RepositionThemeTransition/>
                                     <AddDeleteThemeTransition/>
                                 </TransitionCollection>
@@ -47,13 +47,13 @@
             </ItemsControl>
         </ScrollViewer>
         <ProgressBar Minimum="0" Maximum="100" Value="{x:Bind ViewModel.CurrentWordIndex, Mode=OneWay}" ></ProgressBar>
-        <Grid>
+        <Grid Margin="0,0,0,20">
 
             <RichEditBox TextAlignment="Center">
             </RichEditBox>
             <Rectangle Width="1" Height="15"  Stroke="Transparent" Fill="Black" HorizontalAlignment="Left"
                            Margin="{x:Bind ViewModel.CursorMargin, Mode=OneWay}"/>
-                <TextBox Name="MainInputTextBox" TextAlignment="Center" Background="Transparent" Opacity="0"
+            <TextBox Name="MainInputTextBox" TextAlignment="Center" Background="Transparent" Opacity="0"
                 GotFocus="{x:Bind ViewModel.OnInputFocus}"
                 IsEnabled="{x:Bind ViewModel.Enabled, Mode=OneWay}"
                 KeyUp="{x:Bind ViewModel.OnInputKeyUp}" 
@@ -61,6 +61,13 @@
             </TextBox>
 
         </Grid>
-
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="6*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            <local:Keyboard Grid.Column="1" />
+        </Grid>
     </StackPanel>
 </Page>
