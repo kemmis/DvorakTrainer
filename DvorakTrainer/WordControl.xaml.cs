@@ -6,6 +6,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -37,21 +38,11 @@ namespace DvorakTrainer
             }
         }
 
-        private async void ViewModelOnPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
+        private void ViewModelOnPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
         {
             if (propertyChangedEventArgs.PropertyName == nameof(ViewModel.Active))
             {
-                if (ViewModel.Active)
-                {
-                    var sv = this.GetFirstAncestorOfType<ScrollViewer>();
-                    if (sv != null)
-                    { 
-                        var wp = this.GetFirstAncestorOfType<WrapPanel>();
-                        var t = TransformToVisual(wp);
-                        Point point = t.TransformPoint(new Point(0, 0));
-                        await sv.ScrollToVerticalOffsetWithAnimationAsync(point.Y, 0.4);
-                    }
-                }
+                AdjustScrollPosition();
             }
         }
 
@@ -63,9 +54,28 @@ namespace DvorakTrainer
         public WordControl()
         {
             this.InitializeComponent();
+            Window.Current.SizeChanged += CurrentOnSizeChanged;
         }
 
+        private void CurrentOnSizeChanged(object sender, WindowSizeChangedEventArgs windowSizeChangedEventArgs)
+        {
+            AdjustScrollPosition();
+        }
 
+        private async void AdjustScrollPosition()
+        {
+            if (ViewModel.Active)
+            {
+                var sv = this.GetFirstAncestorOfType<ScrollViewer>();
+                if (sv != null)
+                {
+                    var wp = this.GetFirstAncestorOfType<WrapPanel>();
+                    var t = TransformToVisual(wp);
+                    Point point = t.TransformPoint(new Point(0, 0));
+                    await sv.ScrollToVerticalOffsetWithAnimationAsync(point.Y, 0.4);
+                }
+            }
+        }
     }
 
 
