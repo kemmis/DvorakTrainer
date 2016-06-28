@@ -7,9 +7,11 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.Foundation;
 using Windows.System;
 using Windows.UI;
 using Windows.UI.Text;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using ViewModels.Annotations;
@@ -48,6 +50,19 @@ namespace ViewModels
                     _enabled = value;
                     OnPropertyChanged(nameof(Enabled));
                     OnPropertyChanged(nameof(WordListOpacity));
+                }
+            }
+        }
+
+        public string CursorMargin
+        {
+            get { return _cursorMargin; }
+            set
+            {
+                if (_cursorMargin != value)
+                {
+                    _cursorMargin = value;
+                    OnPropertyChanged(nameof(CursorMargin));
                 }
             }
         }
@@ -113,6 +128,7 @@ namespace ViewModels
         private bool _enabled;
         private bool _isMainInputFocused;
         private bool _mapToDvorak;
+        private string _cursorMargin = "0,0,0,0";
 
         public ObservableCollection<WordViewModel> WordsToType
         {
@@ -137,6 +153,12 @@ namespace ViewModels
             {
                 reb.Document.SetText(TextSetOptions.None, "");
                 tb.Text = "";
+                var r2 = reb.Document.GetRange(0, 0);
+                Rect rect2;
+                int hit2;
+                r2.GetRect(PointOptions.ClientCoordinates, out rect2, out hit2);
+
+                CursorMargin = (rect2.Right+10) + ",0,0,0";
                 return;
             }
 
@@ -145,6 +167,12 @@ namespace ViewModels
             var curWordTupple = WordsToType[_currentWordIndex].Text;
             curWordTupple.Compare = textEntered;
             WordsToType[_currentWordIndex].Text = curWordTupple;
+
+            var r1 = reb.Document.GetRange(0, textEntered.Length);
+            Rect rect;
+            int hit;
+            r1.GetRect(PointOptions.ClientCoordinates, out rect, out hit);
+            CursorMargin = (rect.Right + 14) + ",0,0,0";
 
             var wordToMatch = _wordsToMatch[_currentWordIndex];
             for (int i = 0; i < textEntered.Length; i++)
@@ -166,6 +194,15 @@ namespace ViewModels
                     range.CharacterFormat.ForegroundColor = highlightCharacter ? Colors.Red : Colors.Black;
                     reb.Document.ApplyDisplayUpdates();
                 }
+            }
+        }
+
+        public void OnInputFocus(object sender, RoutedEventArgs args)
+        {
+            var tb = sender as TextBox;
+            if (string.IsNullOrWhiteSpace(tb.Text))
+            {
+                CursorMargin = (Convert.ToInt32(Math.Floor(tb.ActualWidth/2))) + ",0,0,0";
             }
         }
 

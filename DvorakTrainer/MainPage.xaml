@@ -7,6 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:WinRTXamlToolkit.Controls"
     mc:Ignorable="d" xmlns:m="using:ViewModels">
+   
 
     <StackPanel Padding="80,20">
         <controls:WrapPanel>
@@ -40,14 +41,20 @@
         </ScrollViewer>
         <ProgressBar Minimum="0" Maximum="100" Value="{x:Bind ViewModel.CurrentWordIndex, Mode=OneWay}" ></ProgressBar>
         <Grid>
-            <StackPanel>
-            <RichEditBox TextAlignment="Left">
+
+            <RichEditBox TextAlignment="Center">
             </RichEditBox>
-            <TextBox TextAlignment="Center" Background="Transparent"
+            <Rectangle Width="1" Height="15"  Stroke="Black" HorizontalAlignment="Left"
+                           Margin="{x:Bind ViewModel.CursorMargin, Mode=OneWay}">
+
+            </Rectangle>
+            <TextBox Name="MainInputTextBox" TextAlignment="Center" Background="Transparent" Opacity="0"
+                GotFocus="{x:Bind ViewModel.OnInputFocus}"
                 IsEnabled="{x:Bind ViewModel.Enabled, Mode=OneWay}"
                 KeyUp="{x:Bind ViewModel.OnInputKeyUp}" 
                 KeyDown="{x:Bind ViewModel.OnInputKeyDown}">
-            </TextBox></StackPanel>
+            </TextBox>
+
         </Grid>
 
     </StackPanel>

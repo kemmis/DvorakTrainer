@@ -29,6 +29,7 @@ namespace DvorakTrainer
             this.InitializeComponent();
             this.DataContextChanged += OnDataContextChanged;
             ViewModel = new MainPageViewModel();
+            MainInputTextBox.Focus(FocusState.Pointer);
         }
 
         private void OnDataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
