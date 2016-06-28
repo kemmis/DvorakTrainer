@@ -195,6 +195,9 @@ namespace ViewModels
         {
             var tb = sender as TextBox;
             var reb = tb.GetFirstAncestorOfType<Grid>().GetFirstDescendantOfType<RichEditBox>();
+
+            // always keep cursor at end of textbox
+            tb.SelectionLength = 0;
             var dvTxt = MapToDvorak ? DvorakConverter.Convert(tb.Text) : tb.Text;
             reb.Document.SetText(TextSetOptions.None, dvTxt);
 
@@ -320,7 +323,7 @@ namespace ViewModels
             });
 
             WordsToType = new ObservableCollection<WordViewModel>(wordViewModels);
-            
+
             IsMainInputFocused = true;
             ResetScroll = true;
             Enable();
