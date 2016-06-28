@@ -51,11 +51,9 @@
 
             <RichEditBox TextAlignment="Center">
             </RichEditBox>
-            <Rectangle Width="1" Height="15"  Stroke="Black" HorizontalAlignment="Left"
-                           Margin="{x:Bind ViewModel.CursorMargin, Mode=OneWay}">
-
-            </Rectangle>
-            <TextBox Name="MainInputTextBox" TextAlignment="Center" Background="Transparent" Opacity="0"
+            <Rectangle Width="1" Height="15"  Stroke="Transparent" Fill="Black" HorizontalAlignment="Left"
+                           Margin="{x:Bind ViewModel.CursorMargin, Mode=OneWay}"/>
+                <TextBox Name="MainInputTextBox" TextAlignment="Center" Background="Transparent" Opacity="0"
                 GotFocus="{x:Bind ViewModel.OnInputFocus}"
                 IsEnabled="{x:Bind ViewModel.Enabled, Mode=OneWay}"
                 KeyUp="{x:Bind ViewModel.OnInputKeyUp}" 
