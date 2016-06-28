@@ -111,6 +111,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="QwertyToDvorakService.cs" />
     <Compile Include="WordListService.cs" />
     <EmbeddedResource Include="Properties\Services.rd.xml" />
   </ItemGroup>

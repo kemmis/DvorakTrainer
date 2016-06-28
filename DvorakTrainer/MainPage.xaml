@@ -34,7 +34,14 @@
                 </ItemsControl.ItemTemplate>
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <controls:WrapPanel HorizontalAlignment="Center"/>
+                        <controls:WrapPanel HorizontalAlignment="Center">
+                            <controls:WrapPanel.Transitions>
+                                <TransitionCollection>                                    
+                                    <RepositionThemeTransition/>
+                                    <AddDeleteThemeTransition/>
+                                </TransitionCollection>
+                            </controls:WrapPanel.Transitions>
+                        </controls:WrapPanel>
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
             </ItemsControl>

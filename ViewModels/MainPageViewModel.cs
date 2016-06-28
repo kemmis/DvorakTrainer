@@ -147,7 +147,8 @@ namespace ViewModels
         {
             var tb = sender as TextBox;
             var reb = tb.GetFirstAncestorOfType<Grid>().GetFirstDescendantOfType<RichEditBox>();
-            reb.Document.SetText(TextSetOptions.None, tb.Text);
+            var dvTxt = MapToDvorak ? DvorakConverter.Convert(tb.Text) : tb.Text;
+            reb.Document.SetText(TextSetOptions.None, dvTxt);
 
             if (args.Key == VirtualKey.Space)
             {
@@ -158,7 +159,7 @@ namespace ViewModels
                 int hit2;
                 r2.GetRect(PointOptions.ClientCoordinates, out rect2, out hit2);
 
-                CursorMargin = (rect2.Right+10) + ",0,0,0";
+                CursorMargin = (rect2.Right + 10) + ",0,0,0";
                 return;
             }
 
@@ -202,7 +203,7 @@ namespace ViewModels
             var tb = sender as TextBox;
             if (string.IsNullOrWhiteSpace(tb.Text))
             {
-                CursorMargin = (Convert.ToInt32(Math.Floor(tb.ActualWidth/2))) + ",0,0,0";
+                CursorMargin = (Convert.ToInt32(Math.Floor(tb.ActualWidth / 2))) + ",0,0,0";
             }
         }
 
@@ -213,7 +214,7 @@ namespace ViewModels
             var reb = tb.GetFirstAncestorOfType<Grid>().GetFirstDescendantOfType<RichEditBox>();
             //reb.Document.SetText(TextSetOptions.None, tb.Text);
 
-            string textEntered = tb.Text;
+            string textEntered = MapToDvorak ? DvorakConverter.Convert(tb.Text) : tb.Text;
             //reb.Document.GetText(TextGetOptions.NoHidden, out textEntered);
 
             var wordToMatch = _wordsToMatch[_currentWordIndex];
