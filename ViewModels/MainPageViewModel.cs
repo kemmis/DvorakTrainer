@@ -27,6 +27,38 @@ namespace ViewModels
             //Start();
         }
 
+        public bool ResetScroll
+        {
+            get { return _resetScroll; }
+            set
+            {
+                if (value == _resetScroll) return;
+                _resetScroll = value;
+                OnPropertyChanged(nameof(ResetScroll));
+                _resetScroll = false;
+            }
+        }
+
+        public bool ShowKeyboardLayout
+        {
+            get { return _showKeyboardLayout; }
+            set
+            {
+                if (_showKeyboardLayout != value)
+                {
+                    _showKeyboardLayout = value;
+                    OnPropertyChanged(nameof(ShowKeyboardLayout));
+                    OnPropertyChanged(nameof(KeyboardVisibility));
+                }
+            }
+        }
+
+        public Visibility KeyboardVisibility
+        {
+            get { return ShowKeyboardLayout ? Visibility.Visible : Visibility.Collapsed; }
+        }
+
+
         public bool MapToDvorak
         {
             get { return _mapToDvorak; }
@@ -63,6 +95,19 @@ namespace ViewModels
                 {
                     _cursorMargin = value;
                     OnPropertyChanged(nameof(CursorMargin));
+                }
+            }
+        }
+
+        public Visibility CursorVisibility
+        {
+            get { return _cursorVisibility; }
+            set
+            {
+                if (_cursorVisibility != value)
+                {
+                    _cursorVisibility = value;
+                    OnPropertyChanged(nameof(CursorVisibility));
                 }
             }
         }
@@ -129,6 +174,9 @@ namespace ViewModels
         private bool _isMainInputFocused;
         private bool _mapToDvorak;
         private string _cursorMargin = "0,0,0,0";
+        private bool _showKeyboardLayout = true;
+        private Visibility _cursorVisibility;
+        private bool _resetScroll;
 
         public ObservableCollection<WordViewModel> WordsToType
         {
@@ -205,6 +253,13 @@ namespace ViewModels
             {
                 CursorMargin = (Convert.ToInt32(Math.Floor(tb.ActualWidth / 2))) + ",0,0,0";
             }
+
+            CursorVisibility = Visibility.Visible;
+        }
+
+        public void OnInputLostFocus(object sender, RoutedEventArgs args)
+        {
+            CursorVisibility = Visibility.Collapsed;
         }
 
         public void OnInputKeyDown(object sender, KeyRoutedEventArgs args)
@@ -265,7 +320,9 @@ namespace ViewModels
             });
 
             WordsToType = new ObservableCollection<WordViewModel>(wordViewModels);
+            
             IsMainInputFocused = true;
+            ResetScroll = true;
             Enable();
         }
 

@@ -45,7 +45,7 @@ namespace DvorakTrainer
                 {
                     var sv = this.GetFirstAncestorOfType<ScrollViewer>();
                     if (sv != null)
-                    {
+                    { 
                         var wp = this.GetFirstAncestorOfType<WrapPanel>();
                         var t = TransformToVisual(wp);
                         Point point = t.TransformPoint(new Point(0, 0));

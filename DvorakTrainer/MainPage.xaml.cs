@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -13,6 +14,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using WinRTXamlToolkit.Controls.Extensions;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -30,6 +32,16 @@ namespace DvorakTrainer
             this.DataContextChanged += OnDataContextChanged;
             ViewModel = new MainPageViewModel();
             MainInputTextBox.Focus(FocusState.Pointer);
+            ViewModel.PropertyChanged += ViewModelOnPropertyChanged;
+        }
+
+        private async void ViewModelOnPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
+        {
+            if (propertyChangedEventArgs.PropertyName == nameof(ViewModel.ResetScroll))
+            {
+                await WordListScroll.ScrollToVerticalOffsetWithAnimationAsync(0d);
+            }
+
         }
 
         private void OnDataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
