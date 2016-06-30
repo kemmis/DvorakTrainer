@@ -1,12 +1,16 @@
 ﻿<Page
-    x:Class="DvorakTrainer.MainPage"
+    x:Class="DvorakTrainer.Views.MainPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:DvorakTrainer"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:WinRTXamlToolkit.Controls"
-    mc:Ignorable="d" xmlns:m="using:ViewModels">
+     xmlns:prism="using:Prism.Windows.Mvvm"
+      mc:Ignorable="d"
+      prism:ViewModelLocator.AutoWireViewModel="True"
+    xmlns:m="using:ViewModels"
+    xmlns:controls1="using:DvorakTrainer.Controls">
 
 
     <StackPanel Padding="80,20">
@@ -71,7 +75,7 @@
                 <ColumnDefinition Width="6*"/>
                 <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
-            <local:Keyboard Grid.Column="1" />
+            <controls1:Keyboard Grid.Column="1" />
         </Grid>
     </StackPanel>
 </Page>

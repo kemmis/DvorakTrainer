@@ -1,11 +1,9 @@
 ﻿using System;
-using Services;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
 using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.System;
@@ -14,15 +12,22 @@ using Windows.UI.Text;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
+using Prism.Windows.Mvvm;
+using Prism.Windows.Navigation;
+using ViewModels;
 using ViewModels.Annotations;
 using WinRTXamlToolkit.Controls.Extensions;
+using Services;
 
-namespace ViewModels
+namespace DvorakTrainer.ViewModels
 {
-    public class MainPageViewModel : INotifyPropertyChanged
+    public class MainPageViewModel : ViewModelBase
     {
-        public MainPageViewModel()
+        private INavigationService _navigationService;
+
+        public MainPageViewModel(INavigationService navigationService)
         {
+            _navigationService = navigationService;
             SelectedLevel = Levels[0];
             //Start();
         }
@@ -337,13 +342,6 @@ namespace ViewModels
         private void Enable()
         {
             Enabled = true;
-        }
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

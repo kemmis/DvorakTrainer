@@ -1,6 +1,7 @@
 ﻿{
   "dependencies": {
     "Microsoft.NETCore.UniversalWindowsPlatform": "5.0.0",
+    "Prism.Windows": "6.0.2-pre1",
     "WinRTXamlToolkit.UWP": "2.0.0"
   },
   "frameworks": {
