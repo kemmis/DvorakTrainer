@@ -5,5 +5,7 @@
     xmlns:local="using:DvorakTrainer"
     xmlns:prism="using:Prism.Windows"
     RequestedTheme="Light">
-
+    <Application.Resources>
+        <ResourceDictionary Source="Styles\Styles.xaml" />
+    </Application.Resources>
 </prism:PrismApplication>

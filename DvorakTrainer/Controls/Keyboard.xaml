@@ -10,7 +10,7 @@
     d:DesignHeight="300"
     d:DesignWidth="400">
     <Viewbox>
-        <StackPanel Margin="0,20,0,0">
+        <StackPanel Margin="0,0,0,0">
             <StackPanel Orientation="Horizontal">
                 <controls:Key Text="'"/>
                 <controls:Key Text=","/>

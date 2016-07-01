@@ -11,14 +11,17 @@
     d:DesignWidth="400"
     xmlns:m="using:ViewModels" xmlns:s="using:System">
 
+    <UserControl.Resources>
+        <!--<SolidColorBrush  Color="{ThemeResource SystemControlForegroundAltHighBrush}" x:Key="asdf"></SolidColorBrush>-->
+    </UserControl.Resources>
     <Border BorderThickness="0" Padding="10,0,10,4" CornerRadius="10" 
             BorderBrush="{x:Bind ViewModel.BorderColor, Mode=OneWay}"
             Background="{x:Bind ViewModel.BorderColor, Mode=OneWay}">
         <ItemsControl ItemsSource="{x:Bind ViewModel.Letters}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate x:DataType="m:StringTupple">
-                    <TextBlock Text="{x:Bind Display}" 
-                               Foreground="{x:Bind ForegroundColor}" 
+                    <TextBlock Text="{Binding Display}" 
+                               Foreground="{Binding ForegroundColor, Mode=OneWay}" 
                                FontSize="30" >
                     </TextBlock>
                 </DataTemplate>

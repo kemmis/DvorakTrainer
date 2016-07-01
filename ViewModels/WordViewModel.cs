@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using Windows.UI;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
 using ViewModels.Annotations;
 
@@ -86,7 +87,7 @@ namespace ViewModels
         {
             get
             {
-                return new SolidColorBrush(Active ? Colors.DarkSeaGreen : Colors.Transparent);
+                return Active ? (Application.Current.Resources["SystemControlHighlightAccentBrush"] as SolidColorBrush) : new SolidColorBrush(Colors.Transparent);
             }
         }
 
