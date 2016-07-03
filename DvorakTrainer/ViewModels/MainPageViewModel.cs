@@ -214,7 +214,7 @@ namespace DvorakTrainer.ViewModels
             var dvTxt = MapToDvorak ? DvorakConverter.Convert(tb.Text) : tb.Text;
             reb.Document.SetText(TextSetOptions.None, dvTxt);
 
-            if (args.Key == VirtualKey.Space)
+            if (args.Key == VirtualKey.Space || args.Key == VirtualKey.Enter)
             {
                 reb.Document.SetText(TextSetOptions.None, "");
                 tb.Text = "";
@@ -312,7 +312,7 @@ namespace DvorakTrainer.ViewModels
 
             var wordToMatch = _wordsToMatch[_currentWordIndex];
 
-            if (args.Key == VirtualKey.Space)
+            if (args.Key == VirtualKey.Space || args.Key == VirtualKey.Enter)
             {
                 if (wordToMatch == textEntered.Trim())
                 {
