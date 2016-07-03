@@ -107,6 +107,7 @@
     <EmbeddedResource Include="level1.json" />
     <EmbeddedResource Include="level2.json" />
     <EmbeddedResource Include="level3.json" />
+    <EmbeddedResource Include="level4.json" />
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>

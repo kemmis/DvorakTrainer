@@ -171,6 +171,12 @@ namespace DvorakTrainer.ViewModels
                 Name = "3 - Home Row + c, f, k, l, m, p, r, v",
                 Characters = "a,o,e,u,i,d,h,t,n,s,c,f,k,l,m,p,r,v",
                 LevelIndex = 3
+            },
+            new Level()
+            {
+                Name = "4 - Level 3 + b, g, j, q, w, x, y, z",
+                Characters = "a,o,e,u,i,d,h,t,n,s,c,f,k,l,m,p,r,v,b,g,j,q,w,x,y,z",
+                LevelIndex = 4
             }
         };
 

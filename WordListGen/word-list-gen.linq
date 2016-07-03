@@ -10,7 +10,7 @@ string allWordsString = File.ReadAllText("words.txt");
 // split words up into individual strings
 var allWordsList = allWordsString.Split(new string [] { "\n"}, StringSplitOptions.RemoveEmptyEntries);
 // filter out all words < 4 characters long
-var wordsLongEnough = allWordsList.Where(w=>w.Trim().Length > 3);
+var wordsLongEnough = allWordsList.Where(w=>w.Trim().Length > 3).Select(w=>w.Trim());
 
 var level1Characters = "aoeuhtns".ToCharArray();
 var level1Words = wordsLongEnough.Where(w=> w.ToCharArray().All(l=>level1Characters.Contains(l))).ToList();
@@ -26,3 +26,8 @@ var level3Characters = "aoeuidhtnscfklmprv".ToCharArray();
 var level3Words = wordsLongEnough.Where(w=> w.ToCharArray().All(l=>level3Characters.Contains(l))).ToList();
 var level3WordsJson = JsonConvert.SerializeObject(level3Words);
 File.WriteAllText("level3.json",level3WordsJson);
+
+var level4Characters = "aoeuidhtnscfklmprvbgjqwxyz".ToCharArray();
+var level4Words = wordsLongEnough.Where(w=> w.ToCharArray().All(l=>level4Characters.Contains(l))).ToList();
+var level4WordsJson = JsonConvert.SerializeObject(level4Words);
+File.WriteAllText("level4.json",level4WordsJson);

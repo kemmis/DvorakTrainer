@@ -50,7 +50,7 @@
                 <ItemsControl ItemsSource="{x:Bind ViewModel.WordsToType, Mode=OneWay}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate x:DataType="m:WordViewModel">
-                            <local:WordControl ViewModel="{x:Bind}"></local:WordControl>
+                            <controls1:WordControl ViewModel="{x:Bind}"></controls1:WordControl>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                     <ItemsControl.ItemsPanel>
