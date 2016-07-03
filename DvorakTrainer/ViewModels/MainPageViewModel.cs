@@ -202,7 +202,9 @@ namespace DvorakTrainer.ViewModels
             var reb = tb.GetFirstAncestorOfType<Grid>().GetFirstDescendantOfType<RichEditBox>();
 
             // always keep cursor at end of textbox
+            tb.SelectionStart = tb.Text.Length;
             tb.SelectionLength = 0;
+
             var dvTxt = MapToDvorak ? DvorakConverter.Convert(tb.Text) : tb.Text;
             reb.Document.SetText(TextSetOptions.None, dvTxt);
 
@@ -252,6 +254,28 @@ namespace DvorakTrainer.ViewModels
                     reb.Document.ApplyDisplayUpdates();
                 }
             }
+        }
+
+        public void OnInputTapped(object sender, TappedRoutedEventArgs args)
+        {
+            var tb = sender as TextBox;
+
+            // if input is tapped, put cursor at end of line so typing doesn't get interupted
+            // always keep cursor at end of textbox
+            tb.SelectionStart = tb.Text.Length;
+            tb.SelectionLength = 0;
+
+        }
+
+        public void OnInputDoubleTapped(object sender, DoubleTappedRoutedEventArgs args)
+        {
+            var tb = sender as TextBox;
+
+            // if input is tapped, put cursor at end of line so typing doesn't get interupted
+            // always keep cursor at end of textbox
+            tb.SelectionStart = tb.Text.Length;
+            tb.SelectionLength = 0;
+
         }
 
         public void OnInputFocus(object sender, RoutedEventArgs args)

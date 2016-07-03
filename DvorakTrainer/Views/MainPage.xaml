@@ -79,7 +79,7 @@
                 LostFocus="{x:Bind ViewModel.OnInputLostFocus}"
                 IsEnabled="{x:Bind ViewModel.Enabled, Mode=OneWay}"
                 KeyUp="{x:Bind ViewModel.OnInputKeyUp}" 
-                KeyDown="{x:Bind ViewModel.OnInputKeyDown}">
+                KeyDown="{x:Bind ViewModel.OnInputKeyDown}" Tapped="{x:Bind ViewModel.OnInputTapped}" DoubleTapped="{x:Bind ViewModel.OnInputDoubleTapped}">
                 </TextBox>
 
             </Grid>
