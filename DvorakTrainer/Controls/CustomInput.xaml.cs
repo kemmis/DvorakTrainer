@@ -22,20 +22,11 @@ namespace DvorakTrainer.Controls
         public static readonly DependencyProperty WordToMatchProperty = DependencyProperty.Register(
             "WordToMatch", typeof(string), typeof(CustomInput), new PropertyMetadata(default(string)));
 
-        public string WordToMatch
-        {
-            get { return (string) GetValue(WordToMatchProperty); }
-            set { SetValue(WordToMatchProperty, value); }
-        }
-
         public static readonly DependencyProperty MapToDvorakProperty = DependencyProperty.Register(
             "MapToDvorak", typeof(bool), typeof(CustomInput), new PropertyMetadata(default(bool)));
 
-        public bool MapToDvorak
-        {
-            get { return (bool)GetValue(MapToDvorakProperty); }
-            set { SetValue(MapToDvorakProperty, value); }
-        }
+        public static readonly DependencyProperty TextProperty = DependencyProperty.Register(
+            "Text", typeof(string), typeof(CustomInput), new PropertyMetadata(default(string)));
 
         private string _cursorMargin = "0,0,0,0";
         private Visibility _cursorVisibility = Visibility.Collapsed;
@@ -55,9 +46,16 @@ namespace DvorakTrainer.Controls
             Storyboard1.Begin();
         }
 
-        private void LettersStackPanelOnSizeChanged(object sender, SizeChangedEventArgs sizeChangedEventArgs)
+        public string WordToMatch
         {
-            PositionCursor();
+            get { return (string) GetValue(WordToMatchProperty); }
+            set { SetValue(WordToMatchProperty, value); }
+        }
+
+        public bool MapToDvorak
+        {
+            get { return (bool) GetValue(MapToDvorakProperty); }
+            set { SetValue(MapToDvorakProperty, value); }
         }
 
         public Visibility CursorVisibility
@@ -82,7 +80,26 @@ namespace DvorakTrainer.Controls
             }
         }
 
+        public string Text
+        {
+            get { return (string) GetValue(TextProperty); }
+            set
+            {
+                SetValue(TextProperty, value);
+                if (string.IsNullOrEmpty(value))
+                {
+                    Buffer.Clear();
+                }
+            }
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
+
+        private void LettersStackPanelOnSizeChanged(object sender, SizeChangedEventArgs sizeChangedEventArgs)
+        {
+            PositionCursor();
+        }
+
         public event EventHandler TextChanged;
         public event EventHandler EnterKeyPressed;
         public event EventHandler SpaceKeyPressed;
@@ -129,6 +146,7 @@ namespace DvorakTrainer.Controls
                 }
 
                 Buffer.Add(bc);
+                Text += c;
                 TextChanged?.Invoke(this, new EventArgs());
             }
             else if (c == '\b')
@@ -136,7 +154,14 @@ namespace DvorakTrainer.Controls
                 if (Buffer.Any())
                 {
                     Buffer.Remove(Buffer.Last());
-                    TextChanged?.Invoke(this, new EventArgs());
+                }
+                if (!string.IsNullOrEmpty(Text))
+                {
+                    if (Text.Length > 0)
+                    {
+                        Text = Text.Substring(0, Text.Length - 1);
+                        TextChanged?.Invoke(this, new EventArgs());
+                    }
                 }
             }
             else if (c == '\r')
@@ -147,12 +172,11 @@ namespace DvorakTrainer.Controls
             {
                 SpaceKeyPressed?.Invoke(this, new EventArgs());
             }
-
         }
 
         private void PositionCursor()
         {
-            int pos = 0;
+            var pos = 0;
 
             var last = LettersStackPanel.GetDescendantsOfType<StackPanel>().LastOrDefault();
             if (last != null)
@@ -181,10 +205,7 @@ namespace DvorakTrainer.Controls
 
         public SolidColorBrush Color
         {
-            get
-            {
-                return new SolidColorBrush(CharacterToMatch == Character ? Colors.Black : Colors.Red);
-            }
+            get { return new SolidColorBrush(CharacterToMatch == Character ? Colors.Black : Colors.Red); }
         }
     }
 }

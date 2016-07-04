@@ -66,26 +66,8 @@
                 </ItemsControl>
             </ScrollViewer>
             <ProgressBar Minimum="0" Maximum="100" Value="{x:Bind ViewModel.CurrentWordIndex, Mode=OneWay}" Grid.Row="2" ></ProgressBar>
-            <Grid Margin="0,0,0,20" Grid.Row="3">
-
-                <RichEditBox TextAlignment="Center" FontSize="80" Name="RichEditBox">
-                </RichEditBox>
-                <Rectangle Width="1" Height="80"  
-                       Visibility="{x:Bind ViewModel.CursorVisibility, Mode=OneWay}"
-                       Stroke="Transparent" Fill="Black" HorizontalAlignment="Left"
-                           Margin="{x:Bind ViewModel.CursorMargin, Mode=OneWay}"/>
-                <TextBox Name="MainInputTextBox" TextAlignment="Center" Background="Transparent" Opacity="0"
-                         FontSize="{x:Bind RichEditBox.FontSize}"
-                GotFocus="{x:Bind ViewModel.OnInputFocus}"
-                LostFocus="{x:Bind ViewModel.OnInputLostFocus}"
-                IsEnabled="{x:Bind ViewModel.Enabled, Mode=OneWay}"
-                KeyUp="{x:Bind ViewModel.OnInputKeyUp}" 
-                KeyDown="{x:Bind ViewModel.OnInputKeyDown}" Tapped="{x:Bind ViewModel.OnInputTapped}" DoubleTapped="{x:Bind ViewModel.OnInputDoubleTapped}">
-                </TextBox>
-
-            </Grid>
-            
             <controls1:CustomInput Grid.Row="4" IsTabStop="True"
+                                   Text="{x:Bind ViewModel.EnteredText, Mode=TwoWay}"
                                    WordToMatch="{x:Bind ViewModel.WordToMatch, Mode=OneWay}"
                                    TextChanged="{x:Bind ViewModel.OnTextChanged}"
                                    SpaceKeyPressed="{x:Bind ViewModel.OnSpaceOrEnterPressed}"

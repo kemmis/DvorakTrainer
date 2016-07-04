@@ -1,29 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
-using Windows.Foundation;
-using Windows.System;
-using Windows.UI;
-using Windows.UI.Text;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Input;
 using Prism.Windows.Mvvm;
 using Prism.Windows.Navigation;
 using Services;
 using ViewModels;
-using WinRTXamlToolkit.Controls.Extensions;
 
 namespace DvorakTrainer.ViewModels
 {
     public class MainPageViewModel : ViewModelBase
     {
         private int _currentWordIndex;
-        private string _cursorMargin = "0,0,0,0";
-        private Visibility _cursorVisibility;
         private bool _enabled;
+        private string _enteredText;
         private bool _isMainInputFocused;
         private bool _mapToDvorak;
         private INavigationService _navigationService;
@@ -33,18 +24,7 @@ namespace DvorakTrainer.ViewModels
 
         private ObservableCollection<WordViewModel> _wordsToType;
 
-        public string WordToMatch
-        {
-            get { return _wordToMatch; }
-            set
-            {
-                if (_wordToMatch != value)
-                {
-                    _wordToMatch = value;
-                    OnPropertyChanged(nameof(WordToMatch));
-                }
-            }
-        }
+        private string _wordToMatch = "";
 
         public List<Level> Levels = new List<Level>
         {
@@ -74,13 +54,37 @@ namespace DvorakTrainer.ViewModels
             }
         };
 
-        private string _wordToMatch = "";
-
         public MainPageViewModel(INavigationService navigationService)
         {
             _navigationService = navigationService;
             SelectedLevel = Levels[0];
             //Start();
+        }
+
+        public string WordToMatch
+        {
+            get { return _wordToMatch; }
+            set
+            {
+                if (_wordToMatch != value)
+                {
+                    _wordToMatch = value;
+                    OnPropertyChanged(nameof(WordToMatch));
+                }
+            }
+        }
+
+        public string EnteredText
+        {
+            get { return _enteredText; }
+            set
+            {
+                if (_enteredText != value)
+                {
+                    _enteredText = value;
+                    OnPropertyChanged(nameof(EnteredText));
+                }
+            }
         }
 
         public bool ResetScroll
@@ -142,32 +146,6 @@ namespace DvorakTrainer.ViewModels
             }
         }
 
-        public string CursorMargin
-        {
-            get { return _cursorMargin; }
-            set
-            {
-                if (_cursorMargin != value)
-                {
-                    _cursorMargin = value;
-                    OnPropertyChanged(nameof(CursorMargin));
-                }
-            }
-        }
-
-        public Visibility CursorVisibility
-        {
-            get { return _cursorVisibility; }
-            set
-            {
-                if (_cursorVisibility != value)
-                {
-                    _cursorVisibility = value;
-                    OnPropertyChanged(nameof(CursorVisibility));
-                }
-            }
-        }
-
         public double WordListOpacity
         {
             get { return Enabled ? 1 : 0.25; }
@@ -216,144 +194,36 @@ namespace DvorakTrainer.ViewModels
 
         public void OnTextChanged()
         {
-            
+            var curWordTupple = WordsToType[_currentWordIndex].Text;
+            curWordTupple.Compare = EnteredText;
+            WordsToType[_currentWordIndex].Text = curWordTupple;
         }
 
         public void OnSpaceOrEnterPressed()
         {
-            
-        }
-
-        public void OnInputKeyUp(object sender, KeyRoutedEventArgs args)
-        {
-            var tb = sender as TextBox;
-            var reb = tb.GetFirstAncestorOfType<Grid>().GetFirstDescendantOfType<RichEditBox>();
-
-            // always keep cursor at end of textbox
-            tb.SelectionStart = tb.Text.Length;
-            tb.SelectionLength = 0;
-
-            var dvTxt = MapToDvorak ? DvorakConverter.Convert(tb.Text) : tb.Text;
-            reb.Document.SetText(TextSetOptions.None, dvTxt);
-
-            if (args.Key == VirtualKey.Space || args.Key == VirtualKey.Enter)
-            {
-                reb.Document.SetText(TextSetOptions.None, "");
-                tb.Text = "";
-                var r2 = reb.Document.GetRange(0, 0);
-                Rect rect2;
-                int hit2;
-                r2.GetRect(PointOptions.ClientCoordinates, out rect2, out hit2);
-
-                CursorMargin = rect2.Right + 10 + ",0,0,0";
-                return;
-            }
-
-            string textEntered = null;
-            reb.Document.GetText(TextGetOptions.NoHidden, out textEntered);
-            var curWordTupple = WordsToType[_currentWordIndex].Text;
-            curWordTupple.Compare = textEntered;
-            WordsToType[_currentWordIndex].Text = curWordTupple;
-
-            var r1 = reb.Document.GetRange(0, textEntered.Length);
-            Rect rect;
-            int hit;
-            r1.GetRect(PointOptions.ClientCoordinates, out rect, out hit);
-            CursorMargin = rect.Right + 14 + ",0,0,0";
-
-            var wordToMatch = _wordsToMatch[_currentWordIndex];
-            for (var i = 0; i < textEntered.Length; i++)
-            {
-                var highlightCharacter = false;
-                // if text to match isn't as long as i, then highlight character i
-                if (wordToMatch.Length <= i)
-                {
-                    highlightCharacter = true;
-                }
-                else if (wordToMatch[i] != textEntered[i])
-                {
-                    highlightCharacter = true;
-                }
-
-                var range = reb.Document.GetRange(i, i + 1);
-                if (range != null)
-                {
-                    range.CharacterFormat.ForegroundColor = highlightCharacter ? Colors.Red : Colors.Black;
-                    reb.Document.ApplyDisplayUpdates();
-                }
-            }
-        }
-
-        public void OnInputTapped(object sender, TappedRoutedEventArgs args)
-        {
-            var tb = sender as TextBox;
-
-            // if input is tapped, put cursor at end of line so typing doesn't get interupted
-            // always keep cursor at end of textbox
-            tb.SelectionStart = tb.Text.Length;
-            tb.SelectionLength = 0;
-        }
-
-        public void OnInputDoubleTapped(object sender, DoubleTappedRoutedEventArgs args)
-        {
-            var tb = sender as TextBox;
-
-            // if input is tapped, put cursor at end of line so typing doesn't get interupted
-            // always keep cursor at end of textbox
-            tb.SelectionStart = tb.Text.Length;
-            tb.SelectionLength = 0;
-        }
-
-        public void OnInputFocus(object sender, RoutedEventArgs args)
-        {
-            var tb = sender as TextBox;
-            if (string.IsNullOrWhiteSpace(tb.Text))
-            {
-                CursorMargin = Convert.ToInt32(Math.Floor(tb.ActualWidth/2)) + ",0,0,0";
-            }
-
-            CursorVisibility = Visibility.Visible;
-        }
-
-        public void OnInputLostFocus(object sender, RoutedEventArgs args)
-        {
-            CursorVisibility = Visibility.Collapsed;
-        }
-
-        public void OnInputKeyDown(object sender, KeyRoutedEventArgs args)
-        {
-            var tb = sender as TextBox;
-            var reb = tb.GetFirstAncestorOfType<Grid>().GetFirstDescendantOfType<RichEditBox>();
-            //reb.Document.SetText(TextSetOptions.None, tb.Text);
-
-            var textEntered = MapToDvorak ? DvorakConverter.Convert(tb.Text) : tb.Text;
-            //reb.Document.GetText(TextGetOptions.NoHidden, out textEntered);
-
             var wordToMatch = _wordsToMatch[_currentWordIndex];
 
-            if (args.Key == VirtualKey.Space || args.Key == VirtualKey.Enter)
+            if (wordToMatch == EnteredText)
             {
-                if (wordToMatch == textEntered.Trim())
+                WordsToType[_currentWordIndex].Active = false;
+                WordsToType[_currentWordIndex].Completed = true;
+
+                var curWordTupple = WordsToType[_currentWordIndex].Text;
+                curWordTupple.Compare = "";
+                WordsToType[_currentWordIndex].Text = curWordTupple;
+
+                CurrentWordIndex++;
+
+                if (_currentWordIndex < WordsToType.Count)
                 {
-                    WordsToType[_currentWordIndex].Active = false;
-                    WordsToType[_currentWordIndex].Completed = true;
-
-                    var curWordTupple = WordsToType[_currentWordIndex].Text;
-                    curWordTupple.Compare = "";
-                    WordsToType[_currentWordIndex].Text = curWordTupple;
-
-                    CurrentWordIndex++;
-
-                    if (_currentWordIndex < WordsToType.Count)
-                    {
-                        WordsToType[_currentWordIndex].Active = true;
-                        WordToMatch = WordsToType[_currentWordIndex].Text.Display;
-                    }
+                    WordsToType[_currentWordIndex].Active = true;
+                    WordToMatch = WordsToType[_currentWordIndex].Text.Display;
                 }
-                reb.Document.SetText(TextSetOptions.None, "");
-                tb.Text = "";
             }
+
+            EnteredText = "";
         }
+
 
         public async Task OnLevelChange()
         {

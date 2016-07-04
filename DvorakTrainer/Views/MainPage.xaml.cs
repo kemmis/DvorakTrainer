@@ -31,11 +31,6 @@ namespace DvorakTrainer.Views
             //this.GotFocus += OnGotFocus;
         }
 
-        private void OnGotFocus(object sender, RoutedEventArgs routedEventArgs)
-        {
-            MainInputTextBox.Focus(FocusState.Programmatic);
-        }
-
         private async void ViewModelOnPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
         {
             if (propertyChangedEventArgs.PropertyName == nameof(ViewModel.ResetScroll))
