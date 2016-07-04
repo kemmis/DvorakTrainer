@@ -48,6 +48,7 @@ namespace DvorakTrainer.Views
                     StorageHelper.StoreSetting("show-welcome", false, true);
                 }
             }
+            CustomInput.Focus(FocusState.Programmatic);
         }
 
         private async void ViewModelOnPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)

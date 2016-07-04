@@ -18,7 +18,7 @@ namespace DvorakTrainer.ViewModels
         private bool _enabled;
         private string _enteredText;
         private bool _isMainInputFocused;
-        private bool _mapToDvorak;
+        private bool _mapToDvorak = true;
         private INavigationService _navigationService;
         private bool _resetScroll;
         private bool _showKeyboardLayout = true;
@@ -251,10 +251,13 @@ namespace DvorakTrainer.ViewModels
                     UpdateCompletedMessage();
                     LevelComplete?.Invoke(this, new EventArgs());
                 }
+                EnteredText = "";
             }
-
-            EnteredText = "";
-            OnTextChanged();
+            else
+            {
+                EnteredText = "";
+                OnTextChanged();
+            }
         }
 
 

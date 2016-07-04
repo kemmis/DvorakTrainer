@@ -69,7 +69,7 @@
                               MinHeight="80" MaxHeight="150" MinWidth="80" MaxWidth="150"  />
                 </Grid>
                 <ProgressBar Minimum="0" Maximum="100" Value="{x:Bind ViewModel.CurrentWordIndex, Mode=OneWay}" Grid.Row="2" ></ProgressBar>
-                <controls1:CustomInput Grid.Row="4" IsTabStop="True"
+                <controls1:CustomInput Grid.Row="4" IsTabStop="True" x:Name="CustomInput"
                                    Text="{x:Bind ViewModel.EnteredText, Mode=TwoWay}"
                                    WordToMatch="{x:Bind ViewModel.WordToMatch, Mode=OneWay}"
                                    TextChanged="{x:Bind ViewModel.OnTextChanged}"
