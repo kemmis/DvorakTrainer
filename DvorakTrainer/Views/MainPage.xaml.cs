@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using DvorakTrainer.Helpers;
 using ViewModels;
 using WinRTXamlToolkit.Controls.Extensions;
 using MainPageViewModel = DvorakTrainer.ViewModels.MainPageViewModel;
@@ -38,7 +39,15 @@ namespace DvorakTrainer.Views
 
         private async void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
         {
-            var val = await WelcomeDialog.ShowAsync();
+            var showWelcome = StorageHelper.GetSetting("show-welcome", true);
+            if (showWelcome)
+            {
+                var val = await WelcomeDialog.ShowAsync();
+                if (dontShowCb.IsChecked ?? false)
+                {
+                    StorageHelper.StoreSetting("show-welcome", false, true);
+                }
+            }
         }
 
         private async void ViewModelOnPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)

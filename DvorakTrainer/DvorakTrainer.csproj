@@ -105,6 +105,7 @@
     <Compile Include="Controls\Keyboard.xaml.cs">
       <DependentUpon>Keyboard.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\StorageHelper.cs" />
     <Compile Include="ViewModels\MainPageViewModel.cs" />
     <Compile Include="Views\LevelCompletedPage.xaml.cs">
       <DependentUpon>LevelCompletedPage.xaml</DependentUpon>

@@ -59,7 +59,7 @@ namespace DvorakTrainer.ViewModels
 
         private DateTime StartTime;
 
-        public MainPageViewModel(INavigationService navigationService)
+        public MainPageViewModel(INavigationService navigationService )
         {
             _navigationService = navigationService;
             SelectedLevel = Levels[0];

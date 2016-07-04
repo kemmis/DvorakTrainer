@@ -97,7 +97,7 @@
             <StackPanel MaxWidth="800">
                 <TextBlock Text="Welcome! You're about to learn how to type using the best keyboard layout in the world. To begin, place your index fingers on the home position keys labled 'F' and 'J'. Then start typing the highlighted word, using the Dvorak key position diagram below the text box if needed. Type space or enter to continue to the next word."
                             TextWrapping="Wrap" Margin="0,20" />
-                <CheckBox x:Name="checkBoxAgree"
+                <CheckBox x:Name="dontShowCb"
                             Content="Don't show this again." />
             </StackPanel>
         </ContentDialog>
