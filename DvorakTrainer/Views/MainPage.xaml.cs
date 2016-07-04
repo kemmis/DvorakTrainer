@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using ViewModels;
@@ -25,10 +26,13 @@ namespace DvorakTrainer.Views
         public MainPage()
         {
             this.InitializeComponent();
-            //this.DataContextChanged += OnDataContextChanged;
-
             ViewModel.PropertyChanged += ViewModelOnPropertyChanged;
-            //this.GotFocus += OnGotFocus;
+            this.Loaded += OnLoaded;
+        }
+
+        private async void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
+        {
+            var val = await MyContentDialog.ShowAsync();
         }
 
         private async void ViewModelOnPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)

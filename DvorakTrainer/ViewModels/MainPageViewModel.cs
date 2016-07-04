@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 using Prism.Windows.Mvvm;
 using Prism.Windows.Navigation;
 using Services;
@@ -59,6 +60,7 @@ namespace DvorakTrainer.ViewModels
             _navigationService = navigationService;
             SelectedLevel = Levels[0];
             //Start();
+           
         }
 
         public string WordToMatch
