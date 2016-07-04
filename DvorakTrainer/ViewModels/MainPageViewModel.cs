@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
+using DvorakTrainer.Helpers;
 using Prism.Windows.Mvvm;
 using Prism.Windows.Navigation;
 using Services;
@@ -13,21 +14,24 @@ namespace DvorakTrainer.ViewModels
 {
     public class MainPageViewModel : ViewModelBase
     {
+        private int _selectedLevelIndex;
         private string _completedMessage;
         private int _currentWordIndex;
         private bool _enabled;
+        private DateTime _endTime;
         private string _enteredText;
         private bool _isMainInputFocused;
-        private bool _mapToDvorak = true;
+        private bool _mapToDvorak;
         private INavigationService _navigationService;
         private bool _resetScroll;
         private bool _showKeyboardLayout = true;
+
+        private DateTime _startTime;
         private List<string> _wordsToMatch;
 
         private ObservableCollection<WordViewModel> _wordsToType;
 
         private string _wordToMatch = "";
-        private DateTime EndTime;
 
         public List<Level> Levels = new List<Level>
         {
@@ -57,13 +61,13 @@ namespace DvorakTrainer.ViewModels
             }
         };
 
-        private DateTime StartTime;
-
-        public MainPageViewModel(INavigationService navigationService )
+        public MainPageViewModel(INavigationService navigationService)
         {
             _navigationService = navigationService;
-            SelectedLevel = Levels[0];
-            //Start();
+            _selectedLevelIndex = StorageHelper.GetSetting("selected-level", 0);
+            _mapToDvorak = StorageHelper.GetSetting("map-to-dvorak", true);
+            _showKeyboardLayout = StorageHelper.GetSetting("show-keyboard-layout", true);
+            SelectedLevel = Levels[_selectedLevelIndex];
         }
 
         public string CompletedMessage
@@ -128,6 +132,8 @@ namespace DvorakTrainer.ViewModels
                     OnPropertyChanged(nameof(ShowKeyboardLayout));
                     OnPropertyChanged(nameof(KeyboardVisibility));
                 }
+
+                StorageHelper.StoreSetting("show-keyboard-layout", value, true);
             }
         }
 
@@ -147,6 +153,7 @@ namespace DvorakTrainer.ViewModels
                     _mapToDvorak = value;
                     OnPropertyChanged(nameof(MapToDvorak));
                 }
+                StorageHelper.StoreSetting("map-to-dvorak", value, true);
             }
         }
 
@@ -247,7 +254,7 @@ namespace DvorakTrainer.ViewModels
                 }
                 else
                 {
-                    EndTime = DateTime.Now;
+                    _endTime = DateTime.Now;
                     UpdateCompletedMessage();
                     LevelComplete?.Invoke(this, new EventArgs());
                 }
@@ -263,6 +270,8 @@ namespace DvorakTrainer.ViewModels
 
         public async Task OnLevelChange()
         {
+            _selectedLevelIndex = ((Level)SelectedLevel).LevelIndex - 1;
+            StorageHelper.StoreSetting("selected-level", _selectedLevelIndex, true);
             await Start();
         }
 
@@ -288,7 +297,7 @@ namespace DvorakTrainer.ViewModels
 
             IsMainInputFocused = true;
             ResetScroll = true;
-            StartTime = DateTime.Now;
+            _startTime = DateTime.Now;
             Enable();
         }
 
@@ -305,7 +314,7 @@ namespace DvorakTrainer.ViewModels
         private void UpdateCompletedMessage()
         {
             var numWords = WordsToType.Count;
-            var duration = Math.Max(1, (EndTime - StartTime).Minutes);
+            var duration = Math.Max(1, (_endTime - _startTime).Minutes);
             var rate = (int)Math.Ceiling(numWords / (duration * 1.0));
             var msg = $"You typed {numWords} words in {duration} minutes. That's {rate} words per minute.";
             CompletedMessage = msg;
