@@ -254,6 +254,7 @@ namespace DvorakTrainer.ViewModels
             }
 
             EnteredText = "";
+            OnTextChanged();
         }
 
 
