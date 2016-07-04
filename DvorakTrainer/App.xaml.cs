@@ -15,6 +15,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using DvorakTrainer.Helpers;
 using Prism.Mvvm;
 using Prism.Windows;
 using ViewModels;
@@ -34,6 +35,17 @@ namespace DvorakTrainer
         public App() : base()
         {
             this.InitializeComponent();
+
+#if DEBUG
+
+            bool CLEAR_SETTINGS = false;
+
+            if (CLEAR_SETTINGS)
+            {
+                StorageHelper.ClearAllSettings();
+            }
+
+#endif
         }
 
         protected override Task OnLaunchApplicationAsync(LaunchActivatedEventArgs args)

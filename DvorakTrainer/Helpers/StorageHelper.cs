@@ -73,6 +73,11 @@ namespace DvorakTrainer.Helpers
             Windows.Storage.ApplicationData.Current.LocalSettings.Values.Remove(key);
         }
 
+        public static void ClearAllSettings()
+        {
+            Windows.Storage.ApplicationData.Current.LocalSettings.Values.Clear();
+        }
+
         internal static void FlushToStorage()
         {
 
