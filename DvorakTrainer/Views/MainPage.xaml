@@ -44,26 +44,29 @@
                     <ToggleSwitch IsOn="{x:Bind ViewModel.ShowKeyboardLayout, Mode=TwoWay}"></ToggleSwitch>
                 </StackPanel>
             </controls:WrapPanel>
-            <ScrollViewer Name="WordListScroll" Grid.Row="1"
+            <Grid Grid.Row="1">
+                <ScrollViewer Name="WordListScroll" 
              VerticalScrollBarVisibility="Hidden" 
                       VerticalScrollMode="Disabled" 
                       Margin="0,20,0,20" Opacity="{x:Bind ViewModel.WordListOpacity, Mode=OneWay}">
-                <ItemsControl ItemsSource="{x:Bind ViewModel.WordsToType, Mode=OneWay}">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate x:DataType="m:WordViewModel">
-                            <controls1:WordControl ViewModel="{x:Bind}"></controls1:WordControl>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <controls:WrapPanel HorizontalAlignment="Center">
-                                <controls:WrapPanel.Transitions>
-                                    <TransitionCollection/>
-                                </controls:WrapPanel.Transitions>
-                            </controls:WrapPanel>
-                        </ItemsPanelTemplate></ItemsControl.ItemsPanel>
-                </ItemsControl>
-            </ScrollViewer>
+
+                    <ItemsControl ItemsSource="{x:Bind ViewModel.WordsToType, Mode=OneWay}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate x:DataType="m:WordViewModel">
+                                <controls1:WordControl ViewModel="{x:Bind}"></controls1:WordControl>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <controls:WrapPanel HorizontalAlignment="Center">
+                                </controls:WrapPanel>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                    </ItemsControl>
+                </ScrollViewer>
+                <ProgressRing IsActive="True" Visibility="{x:Bind ViewModel.SpinnerVisibility, Mode=OneWay}"
+                              MinHeight="80" MaxHeight="150" MinWidth="80" MaxWidth="150"  />
+            </Grid>
             <ProgressBar Minimum="0" Maximum="100" Value="{x:Bind ViewModel.CurrentWordIndex, Mode=OneWay}" Grid.Row="2" ></ProgressBar>
             <controls1:CustomInput Grid.Row="4" IsTabStop="True"
                                    Text="{x:Bind ViewModel.EnteredText, Mode=TwoWay}"

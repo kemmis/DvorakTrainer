@@ -12,7 +12,7 @@
     extensions:FrameworkElementExtensions.SystemCursor="IBeam">
 
     <Border BorderBrush="Black" BorderThickness="1">
-        <Grid>
+        <Grid SizeChanged="FrameworkElement_OnSizeChanged">
             <Grid.Resources>
                 <Storyboard x:Key="flashAnimation" TargetName="CursorRect" x:Name="Storyboard1">
                     <DoubleAnimation Storyboard.TargetProperty="Opacity" From="1" To="0" 
@@ -36,7 +36,14 @@
                 </ItemsControl.ItemTemplate>
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" SizeChanged="FrameworkElement_OnSizeChanged"></StackPanel>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center"
+                                    SizeChanged="FrameworkElement_OnSizeChanged">
+                            <StackPanel.Transitions>
+                                <TransitionCollection>
+                                    <AddDeleteThemeTransition />
+                                </TransitionCollection>
+                            </StackPanel.Transitions>
+                        </StackPanel>
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
             </ItemsControl>

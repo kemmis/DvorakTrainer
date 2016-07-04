@@ -142,8 +142,14 @@ namespace DvorakTrainer.ViewModels
                     _enabled = value;
                     OnPropertyChanged(nameof(Enabled));
                     OnPropertyChanged(nameof(WordListOpacity));
+                    OnPropertyChanged(nameof(SpinnerVisibility));
                 }
             }
+        }
+
+        public Visibility SpinnerVisibility
+        {
+            get { return Enabled ? Visibility.Collapsed : Visibility.Visible; }
         }
 
         public double WordListOpacity
