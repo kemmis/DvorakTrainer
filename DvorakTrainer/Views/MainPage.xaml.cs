@@ -27,12 +27,18 @@ namespace DvorakTrainer.Views
         {
             this.InitializeComponent();
             ViewModel.PropertyChanged += ViewModelOnPropertyChanged;
+            ViewModel.LevelComplete += ViewModelOnLevelComplete;
             this.Loaded += OnLoaded;
+        }
+
+        private async void ViewModelOnLevelComplete(object sender, EventArgs eventArgs)
+        {
+            await LevelCompleteDialog.ShowAsync();
         }
 
         private async void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
         {
-            var val = await MyContentDialog.ShowAsync();
+            var val = await WelcomeDialog.ShowAsync();
         }
 
         private async void ViewModelOnPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)

@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
 using Prism.Windows.Mvvm;
 using Prism.Windows.Navigation;
 using Services;
@@ -13,6 +13,7 @@ namespace DvorakTrainer.ViewModels
 {
     public class MainPageViewModel : ViewModelBase
     {
+        private string _completedMessage;
         private int _currentWordIndex;
         private bool _enabled;
         private string _enteredText;
@@ -26,6 +27,7 @@ namespace DvorakTrainer.ViewModels
         private ObservableCollection<WordViewModel> _wordsToType;
 
         private string _wordToMatch = "";
+        private DateTime EndTime;
 
         public List<Level> Levels = new List<Level>
         {
@@ -55,12 +57,26 @@ namespace DvorakTrainer.ViewModels
             }
         };
 
+        private DateTime StartTime;
+
         public MainPageViewModel(INavigationService navigationService)
         {
             _navigationService = navigationService;
             SelectedLevel = Levels[0];
             //Start();
-           
+        }
+
+        public string CompletedMessage
+        {
+            get { return _completedMessage; }
+            set
+            {
+                if (_completedMessage != value)
+                {
+                    _completedMessage = value;
+                    OnPropertyChanged(nameof(CompletedMessage));
+                }
+            }
         }
 
         public string WordToMatch
@@ -200,6 +216,8 @@ namespace DvorakTrainer.ViewModels
             }
         }
 
+        public event EventHandler LevelComplete;
+
         public void OnTextChanged()
         {
             var curWordTupple = WordsToType[_currentWordIndex].Text;
@@ -227,6 +245,12 @@ namespace DvorakTrainer.ViewModels
                     WordsToType[_currentWordIndex].Active = true;
                     WordToMatch = WordsToType[_currentWordIndex].Text.Display;
                 }
+                else
+                {
+                    EndTime = DateTime.Now;
+                    UpdateCompletedMessage();
+                    LevelComplete?.Invoke(this, new EventArgs());
+                }
             }
 
             EnteredText = "";
@@ -241,7 +265,7 @@ namespace DvorakTrainer.ViewModels
         private async Task Start()
         {
             Disable();
-            var levelIndex = ((Level) SelectedLevel).LevelIndex;
+            var levelIndex = ((Level)SelectedLevel).LevelIndex;
             CurrentWordIndex = 0;
             var wls = new WordListService();
             _wordsToMatch = (await wls.GetWordsAsync(100, levelIndex)).ToList();
@@ -260,6 +284,7 @@ namespace DvorakTrainer.ViewModels
 
             IsMainInputFocused = true;
             ResetScroll = true;
+            StartTime = DateTime.Now;
             Enable();
         }
 
@@ -271,6 +296,15 @@ namespace DvorakTrainer.ViewModels
         private void Enable()
         {
             Enabled = true;
+        }
+
+        private void UpdateCompletedMessage()
+        {
+            var numWords = WordsToType.Count;
+            var duration = Math.Max(1, (EndTime - StartTime).Minutes);
+            var rate = (int)Math.Ceiling(numWords / (duration * 1.0));
+            var msg = $"You typed {numWords} words in {duration} minutes. That's {rate} words per minute.";
+            CompletedMessage = msg;
         }
     }
 }

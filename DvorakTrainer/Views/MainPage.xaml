@@ -88,7 +88,7 @@
                 <controls1:Keyboard Grid.Column="1" />
             </Grid>
         </Grid>
-        <ContentDialog x:Name="MyContentDialog"
+        <ContentDialog x:Name="WelcomeDialog"
                         VerticalAlignment="Center"
                        Margin="100"
                         Title="Start learning to type Dvorak!"
@@ -100,7 +100,20 @@
                 <CheckBox x:Name="checkBoxAgree"
                             Content="Don't show this again." />
             </StackPanel>
+        </ContentDialog>
 
+        <ContentDialog x:Name="LevelCompleteDialog"
+                        VerticalAlignment="Center"
+                       Margin="100"
+                        Title="Good work!"
+                        PrimaryButtonText="OK"
+                        MaxWidth="{Binding ActualWidth, ElementName=pageRoot}">
+            <controls:WrapPanel MaxWidth="800">
+                <TextBlock Text="{x:Bind ViewModel.CompletedMessage, Mode=OneWay}" TextWrapping="Wrap" Margin="0,20" />
+                <TextBlock TextWrapping="Wrap">
+                    If you are comfortable typing the letters in this level, consider switching to the next level using the levels dropdown. Otherwise, type this current level again about 50 more times.
+                </TextBlock>
+            </controls:WrapPanel>
         </ContentDialog>
     </Grid>
 </Page>
