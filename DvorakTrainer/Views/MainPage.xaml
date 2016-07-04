@@ -24,6 +24,7 @@
                 <RowDefinition Height="*"></RowDefinition>
                 <RowDefinition Height="Auto"></RowDefinition>
                 <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
             </Grid.RowDefinitions>
 
 
@@ -36,7 +37,7 @@
                 </StackPanel>
                 <StackPanel Margin="20,0,0,0">
                     <TextBlock Text="Map keys to Dvorak"></TextBlock>
-                    <ToggleSwitch IsOn="{x:Bind ViewModel.MapToDvorak, Mode=TwoWay}"></ToggleSwitch>
+                    <ToggleSwitch IsOn="{x:Bind ViewModel.MapToDvorak, Mode=TwoWay}" x:Name="MapSwitch"></ToggleSwitch>
                 </StackPanel>
                 <StackPanel Margin="20,0,0,0">
                     <TextBlock Text="Show Keyboard Layout"></TextBlock>
@@ -83,6 +84,15 @@
                 </TextBox>
 
             </Grid>
+            
+            <controls1:CustomInput Grid.Row="4" IsTabStop="True"
+                                   WordToMatch="{x:Bind ViewModel.WordToMatch, Mode=OneWay}"
+                                   TextChanged="{x:Bind ViewModel.OnTextChanged}"
+                                   SpaceKeyPressed="{x:Bind ViewModel.OnSpaceOrEnterPressed}"
+                                   EnterKeyPressed="{x:Bind ViewModel.OnSpaceOrEnterPressed}"
+                                   MapToDvorak="{x:Bind MapSwitch.IsOn, Mode=OneWay}"></controls1:CustomInput>
+
+
         </Grid>
         <Grid Visibility="{x:Bind ViewModel.KeyboardVisibility, Mode=OneWay}" Grid.Row="1">
             <Grid.ColumnDefinitions>

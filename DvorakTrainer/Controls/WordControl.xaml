@@ -22,7 +22,7 @@
                 <DataTemplate x:DataType="m:StringTupple">
                     <TextBlock Text="{Binding Display}" 
                                Foreground="{Binding ForegroundColor, Mode=OneWay}" 
-                               FontSize="30" >
+                               FontSize="30">
                     </TextBlock>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>

@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.System;
@@ -14,16 +12,69 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Prism.Windows.Mvvm;
 using Prism.Windows.Navigation;
-using ViewModels;
-using ViewModels.Annotations;
-using WinRTXamlToolkit.Controls.Extensions;
 using Services;
+using ViewModels;
+using WinRTXamlToolkit.Controls.Extensions;
 
 namespace DvorakTrainer.ViewModels
 {
     public class MainPageViewModel : ViewModelBase
     {
+        private int _currentWordIndex;
+        private string _cursorMargin = "0,0,0,0";
+        private Visibility _cursorVisibility;
+        private bool _enabled;
+        private bool _isMainInputFocused;
+        private bool _mapToDvorak;
         private INavigationService _navigationService;
+        private bool _resetScroll;
+        private bool _showKeyboardLayout = true;
+        private List<string> _wordsToMatch;
+
+        private ObservableCollection<WordViewModel> _wordsToType;
+
+        public string WordToMatch
+        {
+            get { return _wordToMatch; }
+            set
+            {
+                if (_wordToMatch != value)
+                {
+                    _wordToMatch = value;
+                    OnPropertyChanged(nameof(WordToMatch));
+                }
+            }
+        }
+
+        public List<Level> Levels = new List<Level>
+        {
+            new Level
+            {
+                Name = "1 - Home Row 8 Keys",
+                Characters = "a,o,e,u,h,t,n,s",
+                LevelIndex = 1
+            },
+            new Level
+            {
+                Name = "2 - Full Home Row",
+                Characters = "a,o,e,u,i,d,h,t,n,s",
+                LevelIndex = 2
+            },
+            new Level
+            {
+                Name = "3 - Home Row + c, f, k, l, m, p, r, v",
+                Characters = "a,o,e,u,i,d,h,t,n,s,c,f,k,l,m,p,r,v",
+                LevelIndex = 3
+            },
+            new Level
+            {
+                Name = "4 - Level 3 + b, g, j, q, w, x, y, z",
+                Characters = "a,o,e,u,i,d,h,t,n,s,c,f,k,l,m,p,r,v,b,g,j,q,w,x,y,z",
+                LevelIndex = 4
+            }
+        };
+
+        private string _wordToMatch = "";
 
         public MainPageViewModel(INavigationService navigationService)
         {
@@ -148,46 +199,7 @@ namespace DvorakTrainer.ViewModels
             }
         }
 
-        private int _currentWordIndex = 0;
-        private List<string> _wordsToMatch;
-
-        public Object SelectedLevel { get; set; }
-        public List<Level> Levels = new List<Level>()
-        {
-            new Level()
-            {
-                Name = "1 - Home Row 8 Keys",
-                Characters = "a,o,e,u,h,t,n,s",
-                LevelIndex = 1
-            },
-            new Level()
-            {
-                Name = "2 - Full Home Row",
-                Characters = "a,o,e,u,i,d,h,t,n,s",
-                LevelIndex = 2
-            },
-            new Level()
-            {
-                Name = "3 - Home Row + c, f, k, l, m, p, r, v",
-                Characters = "a,o,e,u,i,d,h,t,n,s,c,f,k,l,m,p,r,v",
-                LevelIndex = 3
-            },
-            new Level()
-            {
-                Name = "4 - Level 3 + b, g, j, q, w, x, y, z",
-                Characters = "a,o,e,u,i,d,h,t,n,s,c,f,k,l,m,p,r,v,b,g,j,q,w,x,y,z",
-                LevelIndex = 4
-            }
-        };
-
-        private ObservableCollection<WordViewModel> _wordsToType;
-        private bool _enabled;
-        private bool _isMainInputFocused;
-        private bool _mapToDvorak;
-        private string _cursorMargin = "0,0,0,0";
-        private bool _showKeyboardLayout = true;
-        private Visibility _cursorVisibility;
-        private bool _resetScroll;
+        public object SelectedLevel { get; set; }
 
         public ObservableCollection<WordViewModel> WordsToType
         {
@@ -200,6 +212,16 @@ namespace DvorakTrainer.ViewModels
                     OnPropertyChanged(nameof(WordsToType));
                 }
             }
+        }
+
+        public void OnTextChanged()
+        {
+            
+        }
+
+        public void OnSpaceOrEnterPressed()
+        {
+            
         }
 
         public void OnInputKeyUp(object sender, KeyRoutedEventArgs args)
@@ -223,7 +245,7 @@ namespace DvorakTrainer.ViewModels
                 int hit2;
                 r2.GetRect(PointOptions.ClientCoordinates, out rect2, out hit2);
 
-                CursorMargin = (rect2.Right + 10) + ",0,0,0";
+                CursorMargin = rect2.Right + 10 + ",0,0,0";
                 return;
             }
 
@@ -237,10 +259,10 @@ namespace DvorakTrainer.ViewModels
             Rect rect;
             int hit;
             r1.GetRect(PointOptions.ClientCoordinates, out rect, out hit);
-            CursorMargin = (rect.Right + 14) + ",0,0,0";
+            CursorMargin = rect.Right + 14 + ",0,0,0";
 
             var wordToMatch = _wordsToMatch[_currentWordIndex];
-            for (int i = 0; i < textEntered.Length; i++)
+            for (var i = 0; i < textEntered.Length; i++)
             {
                 var highlightCharacter = false;
                 // if text to match isn't as long as i, then highlight character i
@@ -270,7 +292,6 @@ namespace DvorakTrainer.ViewModels
             // always keep cursor at end of textbox
             tb.SelectionStart = tb.Text.Length;
             tb.SelectionLength = 0;
-
         }
 
         public void OnInputDoubleTapped(object sender, DoubleTappedRoutedEventArgs args)
@@ -281,7 +302,6 @@ namespace DvorakTrainer.ViewModels
             // always keep cursor at end of textbox
             tb.SelectionStart = tb.Text.Length;
             tb.SelectionLength = 0;
-
         }
 
         public void OnInputFocus(object sender, RoutedEventArgs args)
@@ -289,7 +309,7 @@ namespace DvorakTrainer.ViewModels
             var tb = sender as TextBox;
             if (string.IsNullOrWhiteSpace(tb.Text))
             {
-                CursorMargin = (Convert.ToInt32(Math.Floor(tb.ActualWidth / 2))) + ",0,0,0";
+                CursorMargin = Convert.ToInt32(Math.Floor(tb.ActualWidth/2)) + ",0,0,0";
             }
 
             CursorVisibility = Visibility.Visible;
@@ -302,12 +322,11 @@ namespace DvorakTrainer.ViewModels
 
         public void OnInputKeyDown(object sender, KeyRoutedEventArgs args)
         {
-
             var tb = sender as TextBox;
             var reb = tb.GetFirstAncestorOfType<Grid>().GetFirstDescendantOfType<RichEditBox>();
             //reb.Document.SetText(TextSetOptions.None, tb.Text);
 
-            string textEntered = MapToDvorak ? DvorakConverter.Convert(tb.Text) : tb.Text;
+            var textEntered = MapToDvorak ? DvorakConverter.Convert(tb.Text) : tb.Text;
             //reb.Document.GetText(TextGetOptions.NoHidden, out textEntered);
 
             var wordToMatch = _wordsToMatch[_currentWordIndex];
@@ -328,6 +347,7 @@ namespace DvorakTrainer.ViewModels
                     if (_currentWordIndex < WordsToType.Count)
                     {
                         WordsToType[_currentWordIndex].Active = true;
+                        WordToMatch = WordsToType[_currentWordIndex].Text.Display;
                     }
                 }
                 reb.Document.SetText(TextSetOptions.None, "");
@@ -343,14 +363,14 @@ namespace DvorakTrainer.ViewModels
         private async Task Start()
         {
             Disable();
-            var levelIndex = ((Level)SelectedLevel).LevelIndex;
+            var levelIndex = ((Level) SelectedLevel).LevelIndex;
             CurrentWordIndex = 0;
             var wls = new WordListService();
             _wordsToMatch = (await wls.GetWordsAsync(100, levelIndex)).ToList();
-            var wordViewModels = _wordsToMatch.Select((w, i) => new WordViewModel()
+            var wordViewModels = _wordsToMatch.Select((w, i) => new WordViewModel
             {
                 Active = i == 0,
-                Text = new StringTupple()
+                Text = new StringTupple
                 {
                     Display = w,
                     Compare = ""
@@ -358,6 +378,7 @@ namespace DvorakTrainer.ViewModels
             });
 
             WordsToType = new ObservableCollection<WordViewModel>(wordViewModels);
+            WordToMatch = WordsToType[0].Text.Display;
 
             IsMainInputFocused = true;
             ResetScroll = true;

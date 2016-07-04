@@ -54,5 +54,14 @@ namespace Services
              }).ToArray();
             return new string(chars);
         }
+
+        public static char Convert(char qwertyChar)
+        {
+            if (KeyMapping.ContainsKey(qwertyChar))
+            {
+                return KeyMapping[qwertyChar];
+            }
+            return qwertyChar;
+        }
     }
 }
