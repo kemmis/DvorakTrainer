@@ -61,8 +61,7 @@
                                     <TransitionCollection/>
                                 </controls:WrapPanel.Transitions>
                             </controls:WrapPanel>
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
+                        </ItemsPanelTemplate></ItemsControl.ItemsPanel>
                 </ItemsControl>
             </ScrollViewer>
             <ProgressBar Minimum="0" Maximum="100" Value="{x:Bind ViewModel.CurrentWordIndex, Mode=OneWay}" Grid.Row="2" ></ProgressBar>
