@@ -1,0 +1,23 @@
+﻿<Page
+    x:Class="DvorakTrainer.Views.AboutPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:DvorakTrainer.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid MaxWidth="600" HorizontalAlignment="Left">
+        <StackPanel>
+            <TextBlock Text="About Dvorak Trainer" FontSize="30"></TextBlock>
+            <Image Source="../Assets/Square150x150Logo.scale-150.png" Height="150" Width="150" HorizontalAlignment="Left"></Image>
+            <TextBlock Text="Dvorak Trainer version 'ermahgerd' (1.0.1.0)"></TextBlock>
+            <TextBlock Text="Copyright 2016 Rafe Kemmis"></TextBlock>
+
+            <TextBlock Text="OSS" FontSize="30" Margin="0,20,0,0"></TextBlock>
+            <TextBlock Text="Dvorak Trainer is open source software. You can access the source code and contribute on GitHub." 
+                       TextWrapping="Wrap"></TextBlock>
+            <HyperlinkButton Content="https://github.com/kemmis/DvorakTrainer/" NavigateUri="https://github.com/kemmis/DvorakTrainer/"></HyperlinkButton>
+        </StackPanel>
+    </Grid>
+</Page>

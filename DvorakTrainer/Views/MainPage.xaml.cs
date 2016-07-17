@@ -5,6 +5,7 @@ using Windows.UI;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using DvorakTrainer.Helpers;
 using ViewModels;
@@ -79,6 +80,11 @@ namespace DvorakTrainer.Views
         }
 
         private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
+        {
+            ProgramMenu.Open();
+        }
+
+        private void UIElement_OnTapped(object sender, TappedRoutedEventArgs e)
         {
             ProgramMenu.Open();
         }

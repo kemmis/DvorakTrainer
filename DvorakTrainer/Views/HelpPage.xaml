@@ -1,0 +1,17 @@
+﻿<Page
+    x:Class="DvorakTrainer.Views.HelpPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:DvorakTrainer.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid MaxWidth="600" HorizontalAlignment="Left">
+        <StackPanel>
+            <TextBlock Text="Help With Dvorak Trainer" FontSize="30"></TextBlock>
+            <TextBlock Text="Need help using this app? That's okay. I'm not the sharpest tool in the shed either. That's why we have a help section over on our GitHub page." TextWrapping="Wrap"></TextBlock>
+            <HyperlinkButton Content="Click here for help." NavigateUri="https://github.com/kemmis/DvorakTrainer/wiki/Application-Help"></HyperlinkButton>
+        </StackPanel>
+    </Grid>
+</Page>

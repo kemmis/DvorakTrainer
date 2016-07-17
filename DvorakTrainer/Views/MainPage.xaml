@@ -30,7 +30,9 @@
             </Grid.ColumnDefinitions>
            
             <Grid x:Name="BackButtonGrid">
-                <Button Grid.Column="0" FontFamily="Segoe MDL2 Assets" FontSize="24" Content="&#xE700;" Margin="5,5,5,0" Click="ButtonBase_OnClick"></Button>
+                <Button Grid.Column="0" FontFamily="Segoe MDL2 Assets" FontSize="24" Content="&#xE700;" Margin="5,5,5,0" 
+                        Tapped="UIElement_OnTapped"
+                        Click="ButtonBase_OnClick"></Button>
             </Grid>
             <Grid Grid.Column="1" x:Name="MainTitleBar" Background="Transparent">
                 <TextBlock Text="Dvorak Trainer" VerticalAlignment="Center" 

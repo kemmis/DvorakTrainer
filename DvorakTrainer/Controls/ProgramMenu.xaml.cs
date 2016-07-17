@@ -12,6 +12,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using DvorakTrainer.Views;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -27,8 +28,8 @@ namespace DvorakTrainer.Controls
 
         public void Open()
         {
+            MenuListBox.SelectedItem = AboutLBI;
             this.Visibility = Visibility.Visible;
-            
             SplitView1.Visibility = Visibility.Visible;
         }
 
@@ -36,7 +37,19 @@ namespace DvorakTrainer.Controls
         {
             SplitView1.Visibility = Visibility.Collapsed;
             this.Visibility = Visibility.Collapsed;
-            
+
+        }
+
+        private void Selector_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (MenuListBox.SelectedItem == AboutLBI)
+            {
+                ContentFame.Navigate(typeof(AboutPage));
+            }
+            else if (MenuListBox.SelectedItem == HelpLBI)
+            {
+                ContentFame.Navigate(typeof(HelpPage));
+            }
         }
     }
 }
