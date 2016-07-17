@@ -98,6 +98,9 @@
     <Compile Include="Controls\CustomInput.xaml.cs">
       <DependentUpon>CustomInput.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\ProgramMenu.xaml.cs">
+      <DependentUpon>ProgramMenu.xaml</DependentUpon>
+    </Compile>
     <Compile Include="FocusExtension.cs" />
     <Compile Include="Controls\Key.xaml.cs">
       <DependentUpon>Key.xaml</DependentUpon>
@@ -188,6 +191,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\Keyboard.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\ProgramMenu.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

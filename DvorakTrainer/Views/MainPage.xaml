@@ -6,70 +6,98 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:WinRTXamlToolkit.Controls"
-     xmlns:prism="using:Prism.Windows.Mvvm"
-      mc:Ignorable="d"
-      prism:ViewModelLocator.AutoWireViewModel="True"
+    xmlns:prism="using:Prism.Windows.Mvvm"
+    mc:Ignorable="d"
+    prism:ViewModelLocator.AutoWireViewModel="True"
     xmlns:m="using:ViewModels"
-     x:Name="pageRoot"
-    xmlns:controls1="using:DvorakTrainer.Controls">
-    <Grid>
-        <Grid Margin="40, 20">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="6*"></RowDefinition>
-                <RowDefinition Height="Auto"></RowDefinition>
-            </Grid.RowDefinitions>
+    x:Name="pageRoot"
+    xmlns:controls1="using:DvorakTrainer.Controls"
+    xmlns:Interactivity="using:Microsoft.Xaml.Interactivity" 
+    xmlns:Core="using:Microsoft.Xaml.Interactions.Core" 
+    xmlns:Media="using:Microsoft.Xaml.Interactions.Media">
 
-            <Grid>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" Background="{ThemeResource SystemControlForegroundAccentBrush}" Name="TitleBar">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+           
+            <Grid x:Name="BackButtonGrid">
+                <Button Grid.Column="0" FontFamily="Segoe MDL2 Assets" FontSize="24" Content="&#xE700;" Margin="5,5,5,0" Click="ButtonBase_OnClick"></Button>
+            </Grid>
+            <Grid Grid.Column="1" x:Name="MainTitleBar" Background="Transparent">
+                <TextBlock Text="Dvorak Trainer" VerticalAlignment="Center" 
+                    FontSize="12" FontFamily="Segoe UI" FontWeight="Normal" Margin="10,0"></TextBlock>
+            </Grid>
+            <Grid Grid.Column="2"></Grid>
+            <Grid Grid.Column="3" x:Name="RightMask"/>
+        </Grid>
+        <Grid Grid.Row="1">
+            <Grid Margin="40, 20, 40, 20">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"></RowDefinition>
-                    <RowDefinition Height="*"></RowDefinition>
-                    <RowDefinition Height="Auto"></RowDefinition>
-                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="6*"></RowDefinition>
                     <RowDefinition Height="Auto"></RowDefinition>
                 </Grid.RowDefinitions>
 
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                    </Grid.RowDefinitions>
 
-                <controls:WrapPanel Grid.Row="0">
-                    <StackPanel>
-                        <TextBlock Text="Level"></TextBlock>
-                        <ComboBox ItemsSource="{x:Bind ViewModel.Levels}"
+                    <StackPanel Grid.Row="0">
+                        <controls:WrapPanel>
+                            <StackPanel>
+                                <TextBlock Text="Level"></TextBlock>
+                                <ComboBox ItemsSource="{x:Bind ViewModel.Levels}"
                       SelectedItem="{x:Bind ViewModel.SelectedLevel, Mode=TwoWay}"
                       DisplayMemberPath="Name" SelectionChanged="{x:Bind ViewModel.OnLevelChange}" />
+                            </StackPanel>
+                            <StackPanel Margin="20,0,0,0">
+                                <TextBlock Text="Map keys to Dvorak"></TextBlock>
+                                <ToggleSwitch IsOn="{x:Bind ViewModel.MapToDvorak, Mode=TwoWay}" x:Name="MapSwitch"></ToggleSwitch>
+                            </StackPanel>
+                            <StackPanel Margin="20,0,0,0">
+                                <TextBlock Text="Show Keyboard Layout"></TextBlock>
+                                <ToggleSwitch IsOn="{x:Bind ViewModel.ShowKeyboardLayout, Mode=TwoWay}"></ToggleSwitch>
+                            </StackPanel>
+                        </controls:WrapPanel>
                     </StackPanel>
-                    <StackPanel Margin="20,0,0,0">
-                        <TextBlock Text="Map keys to Dvorak"></TextBlock>
-                        <ToggleSwitch IsOn="{x:Bind ViewModel.MapToDvorak, Mode=TwoWay}" x:Name="MapSwitch"></ToggleSwitch>
-                    </StackPanel>
-                    <StackPanel Margin="20,0,0,0">
-                        <TextBlock Text="Show Keyboard Layout"></TextBlock>
-                        <ToggleSwitch IsOn="{x:Bind ViewModel.ShowKeyboardLayout, Mode=TwoWay}"></ToggleSwitch>
-                    </StackPanel>
-                </controls:WrapPanel>
-                <Grid Grid.Row="1">
-                    <ScrollViewer Name="WordListScroll" 
+                    <Grid Grid.Row="1">
+                        <ScrollViewer Name="WordListScroll" 
              VerticalScrollBarVisibility="Hidden" 
                       VerticalScrollMode="Disabled" 
                       Margin="0,20,0,20" Opacity="{x:Bind ViewModel.WordListOpacity, Mode=OneWay}">
 
-                        <ItemsControl ItemsSource="{x:Bind ViewModel.WordsToType, Mode=OneWay}">
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate x:DataType="m:WordViewModel">
-                                    <controls1:WordControl ViewModel="{x:Bind}"></controls1:WordControl>
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                            <ItemsControl.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <controls:WrapPanel HorizontalAlignment="Center">
-                                    </controls:WrapPanel>
-                                </ItemsPanelTemplate>
-                            </ItemsControl.ItemsPanel>
-                        </ItemsControl>
-                    </ScrollViewer>
-                    <ProgressRing IsActive="True" Visibility="{x:Bind ViewModel.SpinnerVisibility, Mode=OneWay}"
+                            <ItemsControl ItemsSource="{x:Bind ViewModel.WordsToType, Mode=OneWay}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate x:DataType="m:WordViewModel">
+                                        <controls1:WordControl ViewModel="{x:Bind}"></controls1:WordControl>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <controls:WrapPanel HorizontalAlignment="Center">
+                                        </controls:WrapPanel>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                            </ItemsControl>
+                        </ScrollViewer>
+                        <ProgressRing IsActive="True" Visibility="{x:Bind ViewModel.SpinnerVisibility, Mode=OneWay}"
                               MinHeight="80" MaxHeight="150" MinWidth="80" MaxWidth="150"  />
-                </Grid>
-                <ProgressBar Minimum="0" Maximum="100" Value="{x:Bind ViewModel.CurrentWordIndex, Mode=OneWay}" Grid.Row="2" ></ProgressBar>
-                <controls1:CustomInput Grid.Row="4" IsTabStop="True" x:Name="CustomInput"
+                    </Grid>
+                    <ProgressBar Minimum="0" Maximum="100" Value="{x:Bind ViewModel.CurrentWordIndex, Mode=OneWay}" Grid.Row="2" ></ProgressBar>
+                    <controls1:CustomInput Grid.Row="4" IsTabStop="True" x:Name="CustomInput"
                                    Text="{x:Bind ViewModel.EnteredText, Mode=TwoWay}"
                                    WordToMatch="{x:Bind ViewModel.WordToMatch, Mode=OneWay}"
                                    TextChanged="{x:Bind ViewModel.OnTextChanged}"
@@ -78,42 +106,45 @@
                                    MapToDvorak="{x:Bind MapSwitch.IsOn, Mode=OneWay}"></controls1:CustomInput>
 
 
+                </Grid>
+                <Grid Visibility="{x:Bind ViewModel.KeyboardVisibility, Mode=OneWay}" Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="8*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <controls1:Keyboard Grid.Column="1" Margin="0,20,0,0" />
+                </Grid>
             </Grid>
-            <Grid Visibility="{x:Bind ViewModel.KeyboardVisibility, Mode=OneWay}" Grid.Row="1">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="1*"/>
-                    <ColumnDefinition Width="8*"/>
-                    <ColumnDefinition Width="1*"/>
-                </Grid.ColumnDefinitions>
-                <controls1:Keyboard Grid.Column="1" Margin="0,20,0,0" />
-            </Grid>
-        </Grid>
-        <ContentDialog x:Name="WelcomeDialog"
+            <ContentDialog x:Name="WelcomeDialog"
                         VerticalAlignment="Center"
                        Margin="100"
                         Title="Start learning to type Dvorak!"
                         PrimaryButtonText="OK"
                         MaxWidth="{Binding ActualWidth, ElementName=pageRoot}">
-            <StackPanel MaxWidth="800">
-                <TextBlock Text="Welcome! You're about to learn how to type using the best keyboard layout in the world. To begin, place your index fingers on the home position keys labled 'F' and 'J'. Then start typing the highlighted word, using the Dvorak key position diagram below the text box if needed. Type space or enter to continue to the next word."
+                <StackPanel MaxWidth="800">
+                    <TextBlock Text="Welcome! You're about to learn how to type using the best keyboard layout in the world. To begin, place your index fingers on the home position keys labled 'F' and 'J'. Then start typing the highlighted word, using the Dvorak key position diagram below the text box if needed. Type space or enter to continue to the next word."
                             TextWrapping="Wrap" Margin="0,20" />
-                <CheckBox x:Name="dontShowCb"
+                    <CheckBox x:Name="dontShowCb"
                             Content="Don't show this again." />
-            </StackPanel>
-        </ContentDialog>
-
-        <ContentDialog x:Name="LevelCompleteDialog"
+                </StackPanel>
+            </ContentDialog>
+            <ContentDialog x:Name="LevelCompleteDialog"
                         VerticalAlignment="Center"
                        Margin="100"
                         Title="Good work!"
                         PrimaryButtonText="OK"
                         MaxWidth="{Binding ActualWidth, ElementName=pageRoot}">
-            <controls:WrapPanel MaxWidth="800">
-                <TextBlock Text="{x:Bind ViewModel.CompletedMessage, Mode=OneWay}" TextWrapping="Wrap" Margin="0,20" />
-                <TextBlock TextWrapping="Wrap">
+                <controls:WrapPanel MaxWidth="800">
+                    <TextBlock Text="{x:Bind ViewModel.CompletedMessage, Mode=OneWay}" TextWrapping="Wrap" Margin="0,20" />
+                    <TextBlock TextWrapping="Wrap">
                     If you are comfortable typing the letters in this level, consider switching to the next level using the levels dropdown. Otherwise, type this current level again about 50 more times.
-                </TextBlock>
-            </controls:WrapPanel>
-        </ContentDialog>
+                    </TextBlock>
+                </controls:WrapPanel>
+            </ContentDialog>
+        </Grid>
+
+        <controls1:ProgramMenu Grid.Row="0" Grid.RowSpan="2"  x:Name="ProgramMenu"></controls1:ProgramMenu>
     </Grid>
 </Page>
+

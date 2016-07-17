@@ -1,7 +1,11 @@
 ﻿using System;
 using System.ComponentModel;
+using Windows.ApplicationModel.Core;
+using Windows.UI;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media;
 using DvorakTrainer.Helpers;
 using ViewModels;
 using WinRTXamlToolkit.Controls.Extensions;
@@ -39,6 +43,15 @@ namespace DvorakTrainer.Views
 
         private async void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
         {
+            CoreApplicationViewTitleBar coreTitleBar = CoreApplication.GetCurrentView().TitleBar;
+            coreTitleBar.ExtendViewIntoTitleBar = true;
+            //TitleBar.Height = coreTitleBar.Height;
+            Window.Current.SetTitleBar(MainTitleBar);
+            coreTitleBar.LayoutMetricsChanged += CoreTitleBar_LayoutMetricsChanged;
+
+            var view = ApplicationView.GetForCurrentView();
+            view.TitleBar.ButtonBackgroundColor = Colors.Transparent;
+
             var showWelcome = StorageHelper.GetSetting("show-welcome", true);
             if (showWelcome)
             {
@@ -51,13 +64,23 @@ namespace DvorakTrainer.Views
             CustomInput.Focus(FocusState.Programmatic);
         }
 
+        private void CoreTitleBar_LayoutMetricsChanged(CoreApplicationViewTitleBar sender, object args)
+        {
+            //TitleBar.Height = sender.Height;
+            RightMask.Width = sender.SystemOverlayRightInset;
+        }
+
         private async void ViewModelOnPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
         {
             if (propertyChangedEventArgs.PropertyName == nameof(ViewModel.ResetScroll))
             {
                 await WordListScroll.ScrollToVerticalOffsetWithAnimationAsync(0d);
             }
+        }
 
+        private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
+        {
+            ProgramMenu.Open();
         }
     }
 }

@@ -6,8 +6,11 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
+using Windows.ApplicationModel.Core;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -46,12 +49,14 @@ namespace DvorakTrainer
             }
 
 #endif
+            
         }
 
         protected override Task OnLaunchApplicationAsync(LaunchActivatedEventArgs args)
         {
-            
+
             NavigationService.Navigate("Main", null);
+            
             return Task.FromResult<object>(null);
         }
 
@@ -61,10 +66,10 @@ namespace DvorakTrainer
             // dependent services from the factory method here.
             ViewModelLocationProvider.Register(typeof(Views.MainPage).ToString(), () => new MainPageViewModel(NavigationService));
 
-
             return base.OnInitializeAsync(args);
         }
 
+        
 
     }
 }
