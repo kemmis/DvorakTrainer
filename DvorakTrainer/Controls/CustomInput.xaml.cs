@@ -112,7 +112,8 @@ namespace DvorakTrainer.Controls
         private void OnLostFocus(object sender, RoutedEventArgs routedEventArgs)
         {
             focused = false;
-            CursorVisibility = Visibility.Collapsed;
+            //CursorVisibility = Visibility.Collapsed;
+            CursorVisibility = Visibility.Visible;
         }
 
         private void OnGotFocus(object sender, RoutedEventArgs routedEventArgs)
@@ -124,7 +125,7 @@ namespace DvorakTrainer.Controls
 
         private void CwOnCharacterReceived(CoreWindow sender, CharacterReceivedEventArgs args)
         {
-            if (!focused) return;
+            //if (!focused) return;
 
             var c = Convert.ToChar(args.KeyCode);
 
