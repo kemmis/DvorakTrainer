@@ -9,12 +9,12 @@
     xmlns:prism="using:Prism.Windows.Mvvm"
     mc:Ignorable="d"
     prism:ViewModelLocator.AutoWireViewModel="True"
-    xmlns:m="using:ViewModels"
     x:Name="pageRoot"
     xmlns:controls1="using:DvorakTrainer.Controls"
     xmlns:Interactivity="using:Microsoft.Xaml.Interactivity" 
     xmlns:Core="using:Microsoft.Xaml.Interactions.Core" 
-    xmlns:Media="using:Microsoft.Xaml.Interactions.Media">
+    xmlns:Media="using:Microsoft.Xaml.Interactions.Media"
+    xmlns:viewModels="using:DvorakTrainer.ViewModels">
 
     <Grid>
         <Grid.RowDefinitions>
@@ -83,7 +83,7 @@
 
                             <ItemsControl ItemsSource="{x:Bind ViewModel.WordsToType, Mode=OneWay}">
                                 <ItemsControl.ItemTemplate>
-                                    <DataTemplate x:DataType="m:WordViewModel">
+                                    <DataTemplate x:DataType="viewModels:WordViewModel">
                                         <controls1:WordControl ViewModel="{x:Bind}"></controls1:WordControl>
                                     </DataTemplate>
                                 </ItemsControl.ItemTemplate>

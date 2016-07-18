@@ -3,7 +3,7 @@ using Windows.Foundation;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using ViewModels;
+using DvorakTrainer.ViewModels;
 using WinRTXamlToolkit.Controls;
 using WinRTXamlToolkit.Controls.Extensions;
 

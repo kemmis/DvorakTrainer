@@ -9,8 +9,8 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
+using DvorakTrainer.Properties;
 using Services;
-using ViewModels.Annotations;
 using WinRTXamlToolkit.Controls.Extensions;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236

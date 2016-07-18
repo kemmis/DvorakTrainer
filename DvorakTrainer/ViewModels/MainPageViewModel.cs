@@ -8,7 +8,6 @@ using DvorakTrainer.Helpers;
 using Prism.Windows.Mvvm;
 using Prism.Windows.Navigation;
 using Services;
-using ViewModels;
 
 namespace DvorakTrainer.ViewModels
 {

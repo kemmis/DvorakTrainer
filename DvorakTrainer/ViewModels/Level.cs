@@ -1,4 +1,4 @@
-namespace ViewModels
+namespace DvorakTrainer.ViewModels
 {
     public class Level
     {

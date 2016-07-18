@@ -21,7 +21,6 @@ using Windows.UI.Xaml.Navigation;
 using DvorakTrainer.Helpers;
 using Prism.Mvvm;
 using Prism.Windows;
-using ViewModels;
 using MainPageViewModel = DvorakTrainer.ViewModels.MainPageViewModel;
 
 namespace DvorakTrainer

@@ -5,9 +5,9 @@ using System.Runtime.CompilerServices;
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
-using ViewModels.Annotations;
+using DvorakTrainer.Properties;
 
-namespace ViewModels
+namespace DvorakTrainer.ViewModels
 {
     public class WordViewModel : INotifyPropertyChanged
     {
