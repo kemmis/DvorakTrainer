@@ -107,7 +107,6 @@
     <Compile Include="Controls\ProgramMenu.xaml.cs">
       <DependentUpon>ProgramMenu.xaml</DependentUpon>
     </Compile>
-    <Compile Include="FocusExtension.cs" />
     <Compile Include="Controls\Key.xaml.cs">
       <DependentUpon>Key.xaml</DependentUpon>
     </Compile>
