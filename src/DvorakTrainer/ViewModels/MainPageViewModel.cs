@@ -131,7 +131,7 @@ namespace DvorakTrainer.ViewModels
                     OnPropertyChanged(nameof(ShowKeyboardLayout));
                     OnPropertyChanged(nameof(KeyboardVisibility));
                 }
-
+                IsMainInputFocused = true;
                 StorageHelper.StoreSetting("show-keyboard-layout", value, true);
             }
         }
@@ -152,6 +152,7 @@ namespace DvorakTrainer.ViewModels
                     _mapToDvorak = value;
                     OnPropertyChanged(nameof(MapToDvorak));
                 }
+                IsMainInputFocused = true;
                 StorageHelper.StoreSetting("map-to-dvorak", value, true);
             }
         }

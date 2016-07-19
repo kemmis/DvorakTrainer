@@ -20,6 +20,8 @@ namespace DvorakTrainer.Controls
 {
     public sealed partial class ProgramMenu : UserControl
     {
+        public event EventHandler Closed;
+
         public ProgramMenu()
         {
             this.InitializeComponent();
@@ -37,7 +39,7 @@ namespace DvorakTrainer.Controls
         {
             SplitView1.Visibility = Visibility.Collapsed;
             this.Visibility = Visibility.Collapsed;
-
+            Closed?.Invoke(this, new EventArgs());
         }
 
         private void Selector_OnSelectionChanged(object sender, SelectionChangedEventArgs e)

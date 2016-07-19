@@ -197,6 +197,22 @@ namespace DvorakTrainer.Controls
         {
             PositionCursor();
         }
+
+        public static readonly DependencyProperty IsFocusedProperty = DependencyProperty.Register(
+            "IsFocused", typeof(bool), typeof(CustomInput), new PropertyMetadata(default(bool)));
+
+        public bool IsFocused
+        {
+            get { return (bool) GetValue(IsFocusedProperty); }
+            set
+            {
+                SetValue(IsFocusedProperty, value);
+                if (value)
+                {
+                    this.Focus(FocusState.Programmatic);
+                }
+            }
+        }
     }
 
     public class BufferCharacter

@@ -48,6 +48,7 @@ namespace DvorakTrainer.Views
             //TitleBar.Height = coreTitleBar.Height;
             Window.Current.SetTitleBar(MainTitleBar);
             coreTitleBar.LayoutMetricsChanged += CoreTitleBar_LayoutMetricsChanged;
+            ProgramMenu.Closed += ProgramMenuOnClosed;
 
             var view = ApplicationView.GetForCurrentView();
             view.TitleBar.ButtonBackgroundColor = Colors.Transparent;
@@ -62,6 +63,11 @@ namespace DvorakTrainer.Views
                 }
             }
             CustomInput.Focus(FocusState.Programmatic);
+        }
+
+        private void ProgramMenuOnClosed(object sender, EventArgs eventArgs)
+        {
+            ViewModel.IsMainInputFocused = true;
         }
 
         private void CoreTitleBar_LayoutMetricsChanged(CoreApplicationViewTitleBar sender, object args)
