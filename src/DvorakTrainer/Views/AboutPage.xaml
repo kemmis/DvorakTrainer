@@ -11,7 +11,7 @@
         <StackPanel>
             <TextBlock Text="About Dvorak Trainer" FontSize="30"></TextBlock>
             <Image Source="../Assets/Square150x150Logo.scale-150.png" Height="150" Width="150" HorizontalAlignment="Left"></Image>
-            <TextBlock Text="Dvorak Trainer version 'ermahgerd' (1.0.1.0)"></TextBlock>
+            <TextBlock Text="Dvorak Trainer version 'focus' (1.0.2.0)"></TextBlock>
             <TextBlock Text="Copyright 2016 Rafe Kemmis"></TextBlock>
 
             <TextBlock Text="OSS" FontSize="30" Margin="0,20,0,0"></TextBlock>

@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" IgnorableNamespaces="uap mp">
-  <Identity Name="35288RafeKemmis.DvorakTrainer" Publisher="CN=15FB6A9B-ADA9-4A20-8A58-357304BE8EF5" Version="1.0.1.0" />
+  <Identity Name="35288RafeKemmis.DvorakTrainer" Publisher="CN=15FB6A9B-ADA9-4A20-8A58-357304BE8EF5" Version="1.0.2.0" />
   <mp:PhoneIdentity PhoneProductId="1e63d8c2-498e-4b85-a4aa-eb25bcb86bb1" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
     <DisplayName>Dvorak Trainer</DisplayName>
